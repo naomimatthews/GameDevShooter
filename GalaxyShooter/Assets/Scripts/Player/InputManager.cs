@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
     private PlayerMovement movement;
     private PlayerCamera playerCamera;
 
+    [SerializeField] Gun gun;
+
     Vector2 horizontalInput;
     Vector2 mouseInput;
 
@@ -23,6 +25,8 @@ public class InputManager : MonoBehaviour
         playerCamera = GetComponent<PlayerCamera>();
 
         onFoot.Jump.performed += ctx => movement.Jump();
+
+        onFoot.Shoot.performed += _ => gun.Shoot();
     }
 
     private void FixedUpdate()
