@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class CharacterSelection : MonoBehaviour
 {
 
     [SerializeField] private GameObject Eunha;
     [SerializeField] private GameObject Winter;
+
+    [SerializeField] private GameObject EunhaText;
+    [SerializeField] private GameObject WinterText;
 
     #region old switch variables.
     /* [SerializeField] private Button previousButton;
@@ -39,11 +43,17 @@ public class CharacterSelection : MonoBehaviour
         Eunha.SetActive(true);
 
         // enable/disable text on ui
+        EunhaText.SetActive(true);
+        WinterText.SetActive(false);
     }
 
     public void OnWinterSelect()
     {
         Eunha.SetActive(false);
         Winter.SetActive(true);
+
+        // enable/disable text on ui
+        EunhaText.SetActive(false);
+        WinterText.SetActive(true);
     }
 }

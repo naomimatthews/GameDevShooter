@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
     private PlayerMovement movement;
     private PlayerCamera playerCamera;
 
-    [SerializeField] Gun gun;
+    [SerializeField] Guns gun;
 
     Vector2 horizontalInput;
     Vector2 mouseInput;

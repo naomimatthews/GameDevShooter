@@ -7,6 +7,8 @@ public class Damageable : MonoBehaviour
     [SerializeField] float maxHealth = 100f;
     float currentHealth;
 
+    [SerializeField] GameObject hitMarker;
+
     
     void Start()
     {
@@ -14,8 +16,9 @@ public class Damageable : MonoBehaviour
     }
 
     
-    public void TakeDamage(float damage)
-    {   
+    public void TakeDamage(float damage, Vector3 hitPos, Vector3 hitNormal)
+    {
+        Instantiate(hitMarker, hitPos, Quaternion.LookRotation(hitNormal));
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
