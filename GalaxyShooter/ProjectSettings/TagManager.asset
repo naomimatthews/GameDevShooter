@@ -17,6 +17,10 @@ TagManager:
   - metall
   - wood_door_glass
   - petrol
+  - FxTemporaire
+  - Effect
+  - Projectile
+  - Enemy
   layers:
   - Default
   - TransparentFX
