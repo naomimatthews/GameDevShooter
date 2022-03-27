@@ -12560,6 +12560,10 @@ PrefabInstance:
       value: EnergyCell_1_9
       objectReference: {fileID: 0}
     - target: {fileID: 1277740577462374, guid: a6b1f17e641a4bb438a914af97581e3e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277740577462374, guid: a6b1f17e641a4bb438a914af97581e3e, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}

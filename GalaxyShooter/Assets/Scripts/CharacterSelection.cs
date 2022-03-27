@@ -4,12 +4,19 @@ using System.Collections;
 
 public class CharacterSelection : MonoBehaviour
 {
-
+    // agents.
     [SerializeField] private GameObject Eunha;
     [SerializeField] private GameObject Winter;
 
+    // text.
     [SerializeField] private GameObject EunhaText;
     [SerializeField] private GameObject WinterText;
+
+    // audio.
+    public AudioSource audioSource;
+    [SerializeField] public AudioClip EunhaPickAudio;
+    [SerializeField] public AudioClip WinterPickAudio;
+    [SerializeField] public AudioClip ChooseAgentAudio;
 
     #region old switch variables.
     /* [SerializeField] private Button previousButton;
@@ -37,6 +44,14 @@ public class CharacterSelection : MonoBehaviour
     */
     #endregion
 
+    public void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+        audioSource.clip = ChooseAgentAudio;
+        audioSource.Play();
+    }
+
     public void OnEunhaSelect()
     {
         Winter.SetActive(false);
@@ -45,6 +60,9 @@ public class CharacterSelection : MonoBehaviour
         // enable/disable text on ui
         EunhaText.SetActive(true);
         WinterText.SetActive(false);
+
+        audioSource.clip = EunhaPickAudio;
+        audioSource.Play();
     }
 
     public void OnWinterSelect()
@@ -55,5 +73,8 @@ public class CharacterSelection : MonoBehaviour
         // enable/disable text on ui
         EunhaText.SetActive(false);
         WinterText.SetActive(true);
+
+        audioSource.clip = WinterPickAudio;
+        audioSource.Play();
     }
 }
