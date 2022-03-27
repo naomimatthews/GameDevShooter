@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAi : MonoBehaviour
+public class EnemyControls : MonoBehaviour
 {
     NavMeshAgent agent;
     public GameObject waypoints;
@@ -66,4 +66,4 @@ public class EnemyAi : MonoBehaviour
     }
 }
 
-}
+

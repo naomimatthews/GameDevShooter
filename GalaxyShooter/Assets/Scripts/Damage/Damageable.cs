@@ -9,16 +9,16 @@ public class Damageable : MonoBehaviour
 
     [SerializeField] GameObject hitMarker;
 
-    
+ 
     void Start()
     {
         currentHealth = maxHealth;
     }
 
     
-    public void TakeDamage(float damage, Vector3 hitPos, Vector3 hitNormal)
+    public void TakeDamage(float damage)
     {
-        Instantiate(hitMarker, hitPos, Quaternion.LookRotation(hitNormal));
+        //Instantiate(hitMarker, hitPos, Quaternion.LookRotation(hitNormal));
         currentHealth -= damage;
         if (currentHealth <= 0)
         {

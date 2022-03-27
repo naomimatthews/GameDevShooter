@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
 
         onFoot.Jump.performed += ctx => movement.Jump();
 
-        onFoot.Shoot.performed += _ => gun.Shoot();
+     //   onFoot.Shoot.performed += _ => gun.Shoot();
     }
 
     private void FixedUpdate()

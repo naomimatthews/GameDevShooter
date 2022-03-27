@@ -6,8 +6,12 @@ using TMPro;
 public class Guns : MonoBehaviour
 {
     Transform cam;
+
     public GameObject muzzleFlash;
-    public GameObject bulletHole;
+
+    private Animator animator;
+
+   // public GameObject bulletHole;
 
     public TextMeshProUGUI text;
 
@@ -37,6 +41,7 @@ public class Guns : MonoBehaviour
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         bulletsLeft = magazineSize;
         readyToShoot = true;
     }
@@ -66,6 +71,7 @@ public class Guns : MonoBehaviour
     private void Reload()
     {
         reloading = true;
+        animator.SetBool("Reloading", true);
         Invoke("ReloadFinished", reloadTime);
     }
 
@@ -94,10 +100,10 @@ public class Guns : MonoBehaviour
             Debug.Log(rayHit.collider.name);
 
             if (rayHit.collider.CompareTag("Enemy"))
-                rayHit.collider.GetComponent<Damageable>().TakeDamage(damage, hitPos, hitNormal);
+                rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
         }
 
-        Instantiate(bulletHole, rayHit.point, Quaternion.Euler(0, 180, 0));
+       // Instantiate(bulletHole, rayHit.point, Quaternion.Euler(0, 180, 0));
         Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
 
         bulletsLeft--;
