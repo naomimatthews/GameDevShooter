@@ -61,6 +61,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -82,7 +83,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -122,6 +123,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: cfd62cdb37ebe9a4caf20620c78f9ade, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Cutoff: 0.3
     - _SquashAmount: 1
@@ -140,8 +142,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Optimized Leaf Material
-  m_Shader: {fileID: 10605, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 99134b1f0c27d54469a840832a28fadf, type: 3}
+  m_ShaderKeywords: _WINDQUALITY_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -151,8 +153,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpSpecMap:
         m_Texture: {fileID: 2800000, guid: e8acd99b8d6f7924c8c677e105abc8d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ExtraTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -163,19 +173,36 @@ Material:
         m_Texture: {fileID: 2800000, guid: 39602daae8fdfbb4e94e471fa3c015b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SubsurfaceTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
         m_Texture: {fileID: 2800000, guid: cfd62cdb37ebe9a4caf20620c78f9ade, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
+    - _BillboardKwToggle: 0
+    - _BillboardShadowFade: 0.5
     - _Cutoff: 0.5
+    - _Glossiness: 0.5
+    - _HueVariationKwToggle: 0
+    - _Metallic: 0
+    - _NormalMapKwToggle: 0
     - _ShadowOffsetScale: 1
     - _ShadowStrength: 0.8
     - _SquashAmount: 1
+    - _SubsurfaceIndirect: 0.25
+    - _SubsurfaceKwToggle: 0
     - _TranslucencyViewDependency: 0.7
+    - _TwoSided: 2
+    - _WindQuality: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _HueVariationColor: {r: 1, g: 0.5, b: 0, a: 0.1}
     - _Scale: {r: 1, g: 1, b: 1, a: 1}
+    - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TranslucencyColor: {r: 0.3831993, g: 0.38805968, b: 0.2143016, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
@@ -569,7 +596,7 @@ MonoBehaviour:
     childGroupIDs: 44000000b6000000
     lodQualityMultiplier: 1
     geometryMode: 0
-    materialBranch: {fileID: 2100000, guid: ab6292c2771e600409b7d4e17a26c54e, type: 2}
+    materialBranch: {fileID: 0}
     materialBreak: {fileID: 0}
     materialFrond: {fileID: 0}
     height: {x: 1.9682364, y: 4.4993954}
@@ -816,7 +843,7 @@ MonoBehaviour:
     childGroupIDs: 
     lodQualityMultiplier: 1
     geometryMode: 2
-    materialBranch: {fileID: 2100000, guid: ab6292c2771e600409b7d4e17a26c54e, type: 2}
+    materialBranch: {fileID: 0}
     materialBreak: {fileID: 0}
     materialFrond: {fileID: 2100000, guid: 06b552a771462fa4dbb72622e516765a, type: 2}
     height: {x: 0.4615942, y: 0.7608696}
@@ -1063,7 +1090,7 @@ MonoBehaviour:
     childGroupIDs: 
     lodQualityMultiplier: 1
     geometryMode: 2
-    materialBranch: {fileID: 2100000, guid: ab6292c2771e600409b7d4e17a26c54e, type: 2}
+    materialBranch: {fileID: 0}
     materialBreak: {fileID: 0}
     materialFrond: {fileID: 2100000, guid: b289a6c91b8dfa8499586dd8349e48ca, type: 2}
     height: {x: 0.4615942, y: 1.8456521}

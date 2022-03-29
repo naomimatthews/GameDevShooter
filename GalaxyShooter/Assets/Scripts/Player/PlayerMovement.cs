@@ -5,13 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
+   // public CharacterController controller;
     public Rigidbody rb;
     private Vector3 playerVelocity;
     private bool isGrounded;
 
     public float speed = 5f;
-    public float gravity = -9.8f;
 
     public float jumpHeight = 3f;
 
@@ -33,22 +32,15 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x = input.x;
         moveDirection.z = input.y;
 
-        rb.MovePosition(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
+       rb.AddForce(transform.TransformDirection(moveDirection) * speed * Time.deltaTime, ForceMode.VelocityChange);
 
-        playerVelocity.y += gravity * Time.deltaTime;
         if (isGrounded && playerVelocity.y < 0)
             playerVelocity.y = -2f;
-
-        rb.MovePosition(playerVelocity * Time.deltaTime);
-        // Debug.Log(playerVelocity.y);
     }
 
     public void Jump()
     {
-        if(isGrounded)
-        {
-            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
-        }
+
     }
 
     public void StealthWalk()

@@ -21,6 +21,7 @@ TagManager:
   - Effect
   - Projectile
   - Enemy
+  - Ground
   layers:
   - Default
   - TransparentFX
