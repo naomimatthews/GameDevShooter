@@ -206,7 +206,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 530089787}
+      - m_Target: {fileID: 816640954}
         m_TargetAssemblyTypeName: SceneManagement, Assembly-CSharp
         m_MethodName: OptionsButton
         m_Mode: 1
@@ -499,7 +499,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 530089787}
+      - m_Target: {fileID: 816640954}
         m_TargetAssemblyTypeName: SceneManagement, Assembly-CSharp
         m_MethodName: HelpButton
         m_Mode: 1
@@ -618,7 +618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41efc1acc0e5d504f9d1471a415f42e3, type: 3}
---- !u!1 &530089786
+--- !u!1 &816640953
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -626,8 +626,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 530089788}
-  - component: {fileID: 530089787}
+  - component: {fileID: 816640955}
+  - component: {fileID: 816640954}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -635,27 +635,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &530089787
+--- !u!114 &816640954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530089786}
+  m_GameObject: {fileID: 816640953}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 096f45b3bf158a1429e5a7a7822d1dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &530089788
+--- !u!4 &816640955
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530089786}
+  m_GameObject: {fileID: 816640953}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8779926, y: -0.0011100769, z: 0.0035165846}
+  m_LocalPosition: {x: 767.9317, y: 552.81586, z: 4.2847595}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -809,7 +809,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 530089787}
+      - m_Target: {fileID: 816640954}
         m_TargetAssemblyTypeName: SceneManagement, Assembly-CSharp
         m_MethodName: FindGameButton
         m_Mode: 1
@@ -1211,7 +1211,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 530089787}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SceneManagement, Assembly-CSharp
         m_MethodName: FindGameButton
         m_Mode: 1

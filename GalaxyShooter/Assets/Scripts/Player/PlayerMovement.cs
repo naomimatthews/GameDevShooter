@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
+    public Rigidbody rb;
     private Vector3 playerVelocity;
     private bool isGrounded;
 
@@ -16,12 +17,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
+      //  controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        isGrounded = controller.isGrounded;
+       // isGrounded = controller.isGrounded;
     }
 
     // receives input from InputManager.cs and applies them to character controller
@@ -31,14 +33,14 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x = input.x;
         moveDirection.z = input.y;
 
-        controller.Move(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
+        rb.MovePosition(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
 
         playerVelocity.y += gravity * Time.deltaTime;
         if (isGrounded && playerVelocity.y < 0)
             playerVelocity.y = -2f;
 
-        controller.Move(playerVelocity * Time.deltaTime);
-       // Debug.Log(playerVelocity.y);
+        rb.MovePosition(playerVelocity * Time.deltaTime);
+        // Debug.Log(playerVelocity.y);
     }
 
     public void Jump()

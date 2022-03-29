@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CharacterSelection : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class CharacterSelection : MonoBehaviour
     [SerializeField] public AudioClip EunhaPickAudio;
     [SerializeField] public AudioClip WinterPickAudio;
     [SerializeField] public AudioClip ChooseAgentAudio;
+
+    public static int characterSelection = 0;
 
     #region old switch variables.
     /* [SerializeField] private Button previousButton;
@@ -63,6 +66,8 @@ public class CharacterSelection : MonoBehaviour
 
         audioSource.clip = EunhaPickAudio;
         audioSource.Play();
+
+        characterSelection = 1;
     }
 
     public void OnWinterSelect()
@@ -76,5 +81,23 @@ public class CharacterSelection : MonoBehaviour
 
         audioSource.clip = WinterPickAudio;
         audioSource.Play();
+
+        characterSelection = 2;
     }
+
+    public void LockInButton()
+    {
+        if (characterSelection != 0)
+        {
+            StartCoroutine(Countdown());
+        }
+    }
+
+    private IEnumerator Countdown()
+    {
+        yield return  new WaitForSeconds(5.0f);
+        SceneManager.LoadScene(4);
+
+    }
+
 }

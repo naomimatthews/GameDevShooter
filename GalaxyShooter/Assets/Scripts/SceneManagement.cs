@@ -7,18 +7,18 @@ public class SceneManagement : MonoBehaviour
 {
     public static SceneManager instance;
 
-    public void FindGameButton()
+    public  void FindGameButton()
     {
-         SceneManager.LoadScene("Character Selection");
+         SceneManager.LoadScene(1);
     }
 
     public void HelpButton()
     {
-          SceneManager.LoadScene("Help");
+          SceneManager.LoadScene(2);
     }
 
     public void OptionsButton()
     {
-         SceneManager.LoadScene("Options");
+         SceneManager.LoadScene(3);
     }
 }
