@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class Guns : MonoBehaviour
@@ -39,15 +40,26 @@ public class Guns : MonoBehaviour
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
 
+    public MeterScript progressMeter; 
+    public int currentProgress; 
+    public int maxProgress = 80;
+
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInParent<Animator>();
         bulletsLeft = magazineSize;
         readyToShoot = true;
     }
 
+    private void Start()
+    {
+        currentProgress = 0;
+        progressMeter.SetMaxProgress(maxProgress);
+    }
+
     private void Update()
     {
+        progressMeter.SetProgress(currentProgress);
         PlayerInput();
 
         text.SetText(bulletsLeft + " / " + magazineSize);
@@ -100,7 +112,10 @@ public class Guns : MonoBehaviour
             Debug.Log(rayHit.collider.name);
 
             if (rayHit.collider.CompareTag("Enemy"))
+            {
+                currentProgress += 1;
                 rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
+            }
         }
 
        // Instantiate(bulletHole, rayHit.point, Quaternion.Euler(0, 180, 0));

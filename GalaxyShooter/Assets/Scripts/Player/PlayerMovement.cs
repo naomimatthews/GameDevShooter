@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController controller;
+    public CharacterController controller;
     private Vector3 playerVelocity;
     private bool isGrounded;
 
@@ -52,5 +52,27 @@ public class PlayerMovement : MonoBehaviour
     public void StealthWalk()
     {
 
+    }
+
+    public void Boost(float buff)
+    {
+        Debug.Log("q ability");
+        speed = speed * buff;
+    }
+    public void ResetBoost(float buff)
+    {
+        Debug.Log("q ability");
+        speed = speed / buff;
+    }
+
+    public void SBBoost()
+    {
+        Debug.Log("e ability");
+        speed = speed * 2.5f;
+    }
+    public void ResetSBBoost()
+    {
+        Debug.Log("e ability");
+        speed = speed / 2.5f;
     }
 }
