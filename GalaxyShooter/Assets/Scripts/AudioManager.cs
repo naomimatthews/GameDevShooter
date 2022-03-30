@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour
     // match audiios.
     [SerializeField] public AudioClip matchStartAudio;
     [SerializeField] public AudioClip footstepsAudio;
+    [SerializeField] public AudioClip victoryAudio;
+    [SerializeField] public AudioClip defeatAudio;
 
     // agent audios.
     [SerializeField] public AudioClip eunhaDashAudio;

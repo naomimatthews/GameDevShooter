@@ -131,6 +131,11 @@ public class Guns : MonoBehaviour
 
     }
 
+    public void IncreaseFireRate()
+    {
+        bulletsShot = bulletsPerTap * 2;
+    }
+
     private void ResetShot()
     {
         readyToShoot = true;

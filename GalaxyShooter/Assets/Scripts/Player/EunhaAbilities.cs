@@ -9,6 +9,8 @@ public class EunhaAbilities : MonoBehaviour
     public GameObject player;
     public Transform target;
 
+    [SerializeField] PlayerMovement playerMove;
+    [SerializeField] Guns gunScript;
     // ability stats.
     protected float abilityTimer;
     [SerializeField] protected float cooldown;
@@ -19,7 +21,6 @@ public class EunhaAbilities : MonoBehaviour
     [SerializeField] protected float Qcooldown;
     [SerializeField] protected float Qduration;
     [SerializeField] private int boostPercentage;
-    [SerializeField] PlayerMovement playerMove;
     private float boostAsPercent;
 
     // (E) dash ability.
@@ -48,6 +49,11 @@ public class EunhaAbilities : MonoBehaviour
             SpeedBoost();
             EabilityTimer = Time.time + Ecooldown;
         }
+
+        if (Time.time >= EabilityTimer && Input.GetKeyDown(KeyCode.X))
+        {
+            // ultimate code.
+        }
     }
 
     private void Dash()
@@ -60,7 +66,13 @@ public class EunhaAbilities : MonoBehaviour
     private void SpeedBoost()
     { 
         playerMove.SBBoost();
+        gunScript.IncreaseFireRate();
         Invoke("ResetEAbility", Eduration);
+    }
+
+    private void EunhaUltimate()
+    {
+
     }
 
     private void ResetQAbility()

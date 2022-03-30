@@ -5,10 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-   // public CharacterController controller;
     public Rigidbody rb;
+    public Animator animator;
     private Vector3 playerVelocity;
-    private bool isGrounded;
 
     public float speed = 5f;
 
@@ -16,13 +15,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-      //  controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-       // isGrounded = controller.isGrounded;
+
     }
 
     // receives input from InputManager.cs and applies them to character controller
@@ -34,19 +33,25 @@ public class PlayerMovement : MonoBehaviour
 
        rb.AddForce(transform.TransformDirection(moveDirection) * speed * Time.deltaTime, ForceMode.VelocityChange);
 
-        if (isGrounded && playerVelocity.y < 0)
-            playerVelocity.y = -2f;
+        // movement animation.
+       /* if (moveDirection == Vector3.zero)
+        {
+            animator.SetFloat("Speed", 0);
+        }*/
+
+       /*f (isGrounded && playerVelocity.y < 0)
+            playerVelocity.y = -2f;*/
     }
 
-    public void Jump()
+  /*  public void Walk(Vector2 input)
     {
-
-    }
-
-    public void StealthWalk()
-    {
-
-    }
+        if (moveDirection != Vector3.zero && !input.GetKey(KeyCode.LeftShift))
+        {
+            animator.SetFloat("Speed", 1f);
+        }
+            animator.SetFloat("Speed", 0.5f);
+   
+    }*/
 
     public void Boost(float buff)
     {

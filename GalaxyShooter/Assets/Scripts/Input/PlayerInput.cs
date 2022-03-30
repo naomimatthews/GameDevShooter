@@ -49,6 +49,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""SilentWalk"",
+                    ""type"": ""Button"",
+                    ""id"": ""562df5df-809d-408f-983b-43c21bdc5656"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
                 }
             ],
             ""bindings"": [
@@ -227,6 +235,28 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec36274c-3e35-4ac4-9018-69107a988668"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SilentWalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0798658-efe1-4b37-8cf4-6aed30bd444d"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SilentWalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -239,6 +269,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_OnFoot_Jump = m_OnFoot.FindAction("Jump", throwIfNotFound: true);
         m_OnFoot_PlayerLook = m_OnFoot.FindAction("PlayerLook", throwIfNotFound: true);
         m_OnFoot_Shoot = m_OnFoot.FindAction("Shoot", throwIfNotFound: true);
+        m_OnFoot_SilentWalk = m_OnFoot.FindAction("SilentWalk", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -292,6 +323,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_OnFoot_Jump;
     private readonly InputAction m_OnFoot_PlayerLook;
     private readonly InputAction m_OnFoot_Shoot;
+    private readonly InputAction m_OnFoot_SilentWalk;
     public struct OnFootActions
     {
         private @PlayerInput m_Wrapper;
@@ -300,6 +332,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_OnFoot_Jump;
         public InputAction @PlayerLook => m_Wrapper.m_OnFoot_PlayerLook;
         public InputAction @Shoot => m_Wrapper.m_OnFoot_Shoot;
+        public InputAction @SilentWalk => m_Wrapper.m_OnFoot_SilentWalk;
         public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -321,6 +354,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Shoot.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnShoot;
+                @SilentWalk.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSilentWalk;
+                @SilentWalk.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSilentWalk;
+                @SilentWalk.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSilentWalk;
             }
             m_Wrapper.m_OnFootActionsCallbackInterface = instance;
             if (instance != null)
@@ -337,6 +373,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @SilentWalk.started += instance.OnSilentWalk;
+                @SilentWalk.performed += instance.OnSilentWalk;
+                @SilentWalk.canceled += instance.OnSilentWalk;
             }
         }
     }
@@ -347,5 +386,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnPlayerLook(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnSilentWalk(InputAction.CallbackContext context);
     }
 }

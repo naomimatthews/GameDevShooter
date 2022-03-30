@@ -24,7 +24,8 @@ public class InputManager : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         playerCamera = GetComponent<PlayerCamera>();
 
-        onFoot.Jump.performed += ctx => movement.Jump();
+       // onFoot.Jump.performed += ctx => movement.Jump();
+      //  onFoot.SilentWalk.performed += ctx => movement.Walk();
 
      //   onFoot.Shoot.performed += _ => gun.Shoot();
     }
@@ -32,6 +33,7 @@ public class InputManager : MonoBehaviour
     private void FixedUpdate()
     {
         movement.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+       // movement.Walk(onFoot.SilentWalk.ReadValue<Vector2>());
     }
 
     private void LateUpdate()
