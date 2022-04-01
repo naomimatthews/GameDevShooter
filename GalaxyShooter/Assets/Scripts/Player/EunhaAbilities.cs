@@ -11,10 +11,8 @@ public class EunhaAbilities : MonoBehaviour
 
     [SerializeField] PlayerMovement playerMove;
     [SerializeField] Guns gunScript;
-    // ability stats.
-    protected float abilityTimer;
-    [SerializeField] protected float cooldown;
-    [SerializeField] protected float duration;
+    [SerializeField] GameObject playerCam;
+    [SerializeField] GameObject ultCam;
 
     // (Q) dash ability.
     protected float QabilityTimer;
@@ -30,9 +28,20 @@ public class EunhaAbilities : MonoBehaviour
     [SerializeField] private int speedBoostPercentage;
     private float speedBoostAsPercent;
 
+    // (X) ultimate ability.
+    bool ultActive;
+    public bool ultReady;
+    protected float ultTimer;
+    [SerializeField] protected float ultDuration;
+
+
     void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
+
+        playerCam.SetActive(true);
+        ultCam.SetActive(false);
+
         boostAsPercent = (100 + boostPercentage) / 100;
     }
 
@@ -50,9 +59,28 @@ public class EunhaAbilities : MonoBehaviour
             EabilityTimer = Time.time + Ecooldown;
         }
 
-        if (Time.time >= EabilityTimer && Input.GetKeyDown(KeyCode.X))
+        if (Time.time >= ultTimer && ultReady && Input.GetKeyDown(KeyCode.X))
         {
-            // ultimate code.
+            ultReady = true;
+            ultActive = true;
+            EunhaUltimate();
+        }
+
+        if (ultActive)
+        {
+            ultTimer -= Time.deltaTime;
+        }
+
+        if (ultTimer <= 0)
+        {
+            ultActive = false;
+
+            playerCam.SetActive(true);
+            ultCam.SetActive(false);
+
+            ultTimer = ultDuration;
+
+            ResetUltimate();
         }
     }
 
@@ -72,7 +100,8 @@ public class EunhaAbilities : MonoBehaviour
 
     private void EunhaUltimate()
     {
-
+        playerCam.SetActive(false);
+        ultCam.SetActive(true);
     }
 
     private void ResetQAbility()
@@ -83,5 +112,13 @@ public class EunhaAbilities : MonoBehaviour
     private void ResetEAbility()
     {
         playerMove.ResetSBBoost();
+    }
+
+
+    private void ResetUltimate()
+    {
+      // stop shooting.
+      // stop rotating.
+      // reset dial.
     }
 }
