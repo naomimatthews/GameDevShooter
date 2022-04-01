@@ -44,7 +44,7 @@ public class EnemyControls : MonoBehaviour
 
         else if (agent.remainingDistance < 1.0f)
         {
-            Debug.Log("Reached destination");
+           // Debug.Log("Reached destination");
             IterateWaypointIndex();
             UpdateDestination();
         }

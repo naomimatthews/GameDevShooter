@@ -11,8 +11,14 @@ public class EunhaAbilities : MonoBehaviour
 
     [SerializeField] PlayerMovement playerMove;
     [SerializeField] Guns gunScript;
+    [SerializeField] MeterButton meterScript;
     [SerializeField] GameObject playerCam;
     [SerializeField] GameObject ultCam;
+
+
+    public MeterScript progressMeter;
+    public int currentProgress;
+    public int maxProgress = 80;
 
     // (Q) dash ability.
     protected float QabilityTimer;
@@ -31,13 +37,15 @@ public class EunhaAbilities : MonoBehaviour
     // (X) ultimate ability.
     bool ultActive;
     public bool ultReady;
-    protected float ultTimer;
+    public float ultTimer;
     [SerializeField] protected float ultDuration;
 
 
     void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
+        gunScript = GetComponent<Guns>();
+        meterScript = GetComponent<MeterButton>();
 
         playerCam.SetActive(true);
         ultCam.SetActive(false);
@@ -59,11 +67,15 @@ public class EunhaAbilities : MonoBehaviour
             EabilityTimer = Time.time + Ecooldown;
         }
 
-        if (Time.time >= ultTimer && ultReady && Input.GetKeyDown(KeyCode.X))
+        if (currentProgress == 80)
         {
             ultReady = true;
-            ultActive = true;
-            EunhaUltimate();
+            Debug.Log("ult ready");
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Debug.Log("x pressed");
+                EunhaUltimate();
+            }
         }
 
         if (ultActive)
@@ -98,8 +110,10 @@ public class EunhaAbilities : MonoBehaviour
         Invoke("ResetEAbility", Eduration);
     }
 
-    private void EunhaUltimate()
+    public void EunhaUltimate()
     {
+        ultActive = true;
+
         playerCam.SetActive(false);
         ultCam.SetActive(true);
     }

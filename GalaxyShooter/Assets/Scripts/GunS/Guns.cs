@@ -113,8 +113,11 @@ public class Guns : MonoBehaviour
 
             if (rayHit.collider.CompareTag("Enemy"))
             {
-                currentProgress += 1;
                 rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
+                if (currentProgress < 80)
+                {
+                    currentProgress += 5;
+                }
             }
         }
 

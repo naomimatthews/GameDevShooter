@@ -28,7 +28,7 @@ public class Damageable : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("was destroyed");
+       // Debug.Log("was destroyed");
         Destroy(gameObject);
     }
 }
