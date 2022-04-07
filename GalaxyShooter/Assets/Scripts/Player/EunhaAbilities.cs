@@ -9,16 +9,12 @@ public class EunhaAbilities : MonoBehaviour
     public GameObject player;
     public Transform target;
 
-    [SerializeField] PlayerMovement playerMove;
-    [SerializeField] Guns gunScript;
-    [SerializeField] MeterButton meterScript;
+    PlayerMovement playerMove;
+    Guns gunScript;
+    MeterButton meterButton;
     [SerializeField] GameObject playerCam;
-    [SerializeField] GameObject ultCam;
-
 
     public MeterScript progressMeter;
-    public int currentProgress;
-    public int maxProgress = 80;
 
     // (Q) dash ability.
     protected float QabilityTimer;
@@ -27,7 +23,7 @@ public class EunhaAbilities : MonoBehaviour
     [SerializeField] private int boostPercentage;
     private float boostAsPercent;
 
-    // (E) dash ability.
+    // (E) speed boost ability.
     protected float EabilityTimer;
     [SerializeField] protected float Ecooldown;
     [SerializeField] protected float Eduration;
@@ -39,16 +35,18 @@ public class EunhaAbilities : MonoBehaviour
     public bool ultReady;
     public float ultTimer;
     [SerializeField] protected float ultDuration;
+    public float rotationSpeed;
+    // public Vector3 rotationDirection;
 
+    private void Awake()
+    {
+        meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton>();
+        gunScript = GameObject.Find("Gun").GetComponent<Guns>();
+    }
 
     void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
-        gunScript = GetComponent<Guns>();
-        meterScript = GetComponent<MeterButton>();
-
-        playerCam.SetActive(true);
-        ultCam.SetActive(false);
 
         boostAsPercent = (100 + boostPercentage) / 100;
     }
@@ -67,17 +65,18 @@ public class EunhaAbilities : MonoBehaviour
             EabilityTimer = Time.time + Ecooldown;
         }
 
-        if (currentProgress == 80)
+        if (meterButton.currentProgress == meterButton.maxProgress)
         {
             ultReady = true;
             Debug.Log("ult ready");
+
             if (Input.GetKeyDown(KeyCode.X))
             {
                 Debug.Log("x pressed");
                 EunhaUltimate();
             }
-        }
 
+        }
         if (ultActive)
         {
             ultTimer -= Time.deltaTime;
@@ -85,12 +84,6 @@ public class EunhaAbilities : MonoBehaviour
 
         if (ultTimer <= 0)
         {
-            ultActive = false;
-
-            playerCam.SetActive(true);
-            ultCam.SetActive(false);
-
-            ultTimer = ultDuration;
 
             ResetUltimate();
         }
@@ -112,10 +105,9 @@ public class EunhaAbilities : MonoBehaviour
 
     public void EunhaUltimate()
     {
-        ultActive = true;
-
-        playerCam.SetActive(false);
-        ultCam.SetActive(true);
+       ultActive = true;
+      
+        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
     }
 
     private void ResetQAbility()

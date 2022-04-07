@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void ResetBoost(float buff)
     {
-        Debug.Log("q ability");
+        Debug.Log("q ability reset");
         speed = speed / buff;
     }
 
@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void ResetSBBoost()
     {
-        Debug.Log("e ability");
+        Debug.Log("e ability reset");
         speed = speed / 2.5f;
     }
 }

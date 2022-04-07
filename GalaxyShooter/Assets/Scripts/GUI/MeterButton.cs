@@ -24,16 +24,4 @@ public class MeterButton : MonoBehaviour
         progressMeter.SetProgress(currentProgress); // links your variable to the meter's fill.
 
     }
-
-    public void Ultimate()
-    {
-       /* if(currentProgress == maxProgress)
-        {
-            abilitiesScript.ultReady = true;
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                abilitiesScript.EunhaUltimate();
-            }
-        }*/
-    }
 }

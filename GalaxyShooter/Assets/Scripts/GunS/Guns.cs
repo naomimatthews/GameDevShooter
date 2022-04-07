@@ -139,6 +139,11 @@ public class Guns : MonoBehaviour
         bulletsShot = bulletsPerTap * 2;
     }
 
+    public void LessDamage()
+    {
+        damage = damage - 35;
+    }
+
     private void ResetShot()
     {
         readyToShoot = true;
