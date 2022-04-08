@@ -40,12 +40,14 @@ public class Guns : MonoBehaviour
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
 
-    public MeterScript progressMeter; 
-    public int currentProgress; 
-    public int maxProgress = 80;
+    public MeterScript progressMeter;
+    public MeterButton meterButton;
 
     private void Awake()
     {
+        meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton>();
+        progressMeter = GameObject.Find("UltimateMeter").GetComponent<MeterScript>();
+
         animator = GetComponentInParent<Animator>();
         bulletsLeft = magazineSize;
         readyToShoot = true;
@@ -53,13 +55,13 @@ public class Guns : MonoBehaviour
 
     private void Start()
     {
-        currentProgress = 0;
-        progressMeter.SetMaxProgress(maxProgress);
+        meterButton.currentProgress = 0;
+        progressMeter.SetMaxProgress(meterButton.maxProgress);
     }
 
     private void Update()
     {
-        progressMeter.SetProgress(currentProgress);
+        progressMeter.SetProgress(meterButton.currentProgress);
         PlayerInput();
 
         text.SetText(bulletsLeft + " / " + magazineSize);
@@ -114,9 +116,10 @@ public class Guns : MonoBehaviour
             if (rayHit.collider.CompareTag("Enemy"))
             {
                 rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
-                if (currentProgress < 80)
+                if (meterButton.currentProgress < 80)
                 {
-                    currentProgress += 5;
+                    Debug.Log("BIGWOW");
+                    meterButton.currentProgress += 5;
                 }
             }
         }

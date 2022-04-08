@@ -17,7 +17,6 @@ public class Damageable : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        //Instantiate(hitMarker, hitPos, Quaternion.LookRotation(hitNormal));
         currentHealth -= damage;
 
         if (currentHealth <= 0)

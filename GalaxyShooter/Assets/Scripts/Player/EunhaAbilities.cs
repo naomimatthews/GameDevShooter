@@ -15,6 +15,7 @@ public class EunhaAbilities : MonoBehaviour
     [SerializeField] GameObject playerCam;
 
     public MeterScript progressMeter;
+    public WeaponSelection weaponSelection;
 
     // (Q) dash ability.
     protected float QabilityTimer;
@@ -41,7 +42,8 @@ public class EunhaAbilities : MonoBehaviour
     private void Awake()
     {
         meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton>();
-        gunScript = GameObject.Find("Gun").GetComponent<Guns>();
+        gunScript = GameObject.Find("Guns").GetComponent<Guns>();
+        weaponSelection = GameObject.Find("Guns").GetComponent<WeaponSelection>();
     }
 
     void Start()
@@ -49,6 +51,8 @@ public class EunhaAbilities : MonoBehaviour
         playerMove = GetComponent<PlayerMovement>();
 
         boostAsPercent = (100 + boostPercentage) / 100;
+
+        ultTimer = ultDuration;
     }
 
     void Update()
@@ -84,7 +88,6 @@ public class EunhaAbilities : MonoBehaviour
 
         if (ultTimer <= 0)
         {
-
             ResetUltimate();
         }
     }
@@ -106,8 +109,8 @@ public class EunhaAbilities : MonoBehaviour
     public void EunhaUltimate()
     {
        ultActive = true;
-      
-        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+
+        weaponSelection.EunhaUltKnife();
     }
 
     private void ResetQAbility()
@@ -123,8 +126,8 @@ public class EunhaAbilities : MonoBehaviour
 
     private void ResetUltimate()
     {
-      // stop shooting.
-      // stop rotating.
-      // reset dial.
+        ultActive = false;
+
+        meterButton.currentProgress = 0;
     }
 }
