@@ -5,6 +5,7 @@ using UnityEngine;
 public class EunhaAbilities : MonoBehaviour
 {
     Rigidbody rb;
+
     public GameObject dashEffect;
     public GameObject player;
     public Transform target;
@@ -12,32 +13,50 @@ public class EunhaAbilities : MonoBehaviour
     PlayerMovement playerMove;
     Guns gunScript;
     MeterButton meterButton;
+
     [SerializeField] GameObject playerCam;
+
 
     public MeterScript progressMeter;
     public WeaponSelection weaponSelection;
 
     // (Q) dash ability.
     protected float QabilityTimer;
+
     [SerializeField] protected float Qcooldown;
     [SerializeField] protected float Qduration;
     [SerializeField] private int boostPercentage;
+
     private float boostAsPercent;
 
     // (E) speed boost ability.
     protected float EabilityTimer;
+
     [SerializeField] protected float Ecooldown;
     [SerializeField] protected float Eduration;
     [SerializeField] private int speedBoostPercentage;
+
     private float speedBoostAsPercent;
 
     // (X) ultimate ability.
     bool ultActive;
     public bool ultReady;
     public float ultTimer;
+
     [SerializeField] protected float ultDuration;
-    public float rotationSpeed;
-    // public Vector3 rotationDirection;
+
+    [SerializeField] Transform attackPoint;
+    [SerializeField] Transform cam;
+    [SerializeField] GameObject objectToThrow;
+
+    public int totalThrows;
+    public float throwCooldown;
+
+    public float throwForce;
+    public float throwUpwardForce;
+
+    bool readyToThrow;
+    
 
     private void Awake()
     {
@@ -53,6 +72,8 @@ public class EunhaAbilities : MonoBehaviour
         boostAsPercent = (100 + boostPercentage) / 100;
 
         ultTimer = ultDuration;
+
+        readyToThrow = true;
     }
 
     void Update()
@@ -74,10 +95,19 @@ public class EunhaAbilities : MonoBehaviour
             ultReady = true;
             Debug.Log("ult ready");
 
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.X) && readyToThrow && totalThrows > 0)
             {
                 Debug.Log("x pressed");
-                EunhaUltimate();
+
+                //disable the gun script whilst ult is active.
+                GameObject gun = GameObject.Find("Guns");
+                gun.GetComponent<Guns>().enabled = false;
+
+                weaponSelection.EunhaUltKnife();
+                if (Input.GetKeyDown(KeyCode.Mouse0) && readyToThrow && totalThrows > 0)
+                {
+                    EunhaUltimate();
+                }
             }
 
         }
@@ -110,7 +140,20 @@ public class EunhaAbilities : MonoBehaviour
     {
        ultActive = true;
 
-        weaponSelection.EunhaUltKnife();
+        GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
+        Rigidbody projectileRB = projectile.GetComponent<Rigidbody>();
+
+        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+        projectileRB.AddForce(forceToAdd, ForceMode.Impulse);
+
+        totalThrows--;
+
+        Invoke(nameof(ReserThrow), throwCooldown);
+    }
+
+    private void ReserThrow()
+    {
+        readyToThrow = true;
     }
 
     private void ResetQAbility()
