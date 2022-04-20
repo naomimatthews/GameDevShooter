@@ -118,7 +118,7 @@ public class Guns : MonoBehaviour
                 rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
                 if (meterButton.currentProgress < 80)
                 {
-                    Debug.Log("BIGWOW");
+                   // Debug.Log("BIGWOW");
                     meterButton.currentProgress += 5;
                 }
             }

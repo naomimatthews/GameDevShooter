@@ -93,21 +93,18 @@ public class EunhaAbilities : MonoBehaviour
         if (meterButton.currentProgress == meterButton.maxProgress)
         {
             ultReady = true;
-            Debug.Log("ult ready");
 
-            if (Input.GetKeyDown(KeyCode.X) && readyToThrow && totalThrows > 0)
+           // Debug.Log("ult ready");
+
+            if (Input.GetKeyDown(KeyCode.X))
             {
-                Debug.Log("x pressed");
 
                 //disable the gun script whilst ult is active.
                 GameObject gun = GameObject.Find("Guns");
                 gun.GetComponent<Guns>().enabled = false;
 
                 weaponSelection.EunhaUltKnife();
-                if (Input.GetKeyDown(KeyCode.Mouse0) && readyToThrow && totalThrows > 0)
-                {
-                    EunhaUltimate();
-                }
+                EunhaUltimate();
             }
 
         }
@@ -138,17 +135,24 @@ public class EunhaAbilities : MonoBehaviour
 
     public void EunhaUltimate()
     {
-       ultActive = true;
+        ultActive = true;
 
-        GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
-        Rigidbody projectileRB = projectile.GetComponent<Rigidbody>();
+        if (Input.GetKeyDown(KeyCode.Mouse0) && readyToThrow && totalThrows > 0)
+        {
+            Debug.Log("working");
+            readyToThrow = false;
 
-        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
-        projectileRB.AddForce(forceToAdd, ForceMode.Impulse);
+            GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
+            Rigidbody projectileRB = projectile.GetComponent<Rigidbody>();
 
-        totalThrows--;
+            Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+            projectileRB.AddForce(forceToAdd, ForceMode.Impulse);
 
-        Invoke(nameof(ReserThrow), throwCooldown);
+            totalThrows--;
+
+            Invoke(nameof(ReserThrow), throwCooldown);
+        }
+
     }
 
     private void ReserThrow()

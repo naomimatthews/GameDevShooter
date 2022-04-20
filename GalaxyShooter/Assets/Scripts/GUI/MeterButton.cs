@@ -22,6 +22,6 @@ public class MeterButton : MonoBehaviour
     private void Update()
     {
         progressMeter.SetProgress(currentProgress); // links your variable to the meter's fill.
-        Debug.Log(currentProgress);
+        //Debug.Log(currentProgress);
     }
 }

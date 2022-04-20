@@ -21,4 +21,9 @@ public class SceneManagement : MonoBehaviour
     {
          SceneManager.LoadScene(3);
     }
+
+    public void BackButton()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
