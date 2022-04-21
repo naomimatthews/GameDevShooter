@@ -104,12 +104,13 @@ public class EunhaAbilities : MonoBehaviour
                 gun.GetComponent<Guns>().enabled = false;
 
                 weaponSelection.EunhaUltKnife();
-                EunhaUltimate();
+                ultActive = true;
             }
 
         }
         if (ultActive)
         {
+            EunhaUltimate();
             ultTimer -= Time.deltaTime;
         }
 
@@ -135,27 +136,37 @@ public class EunhaAbilities : MonoBehaviour
 
     public void EunhaUltimate()
     {
-        ultActive = true;
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && readyToThrow && totalThrows > 0)
         {
             Debug.Log("working");
             readyToThrow = false;
 
+            // instantiates the knife to throw and gets its rigidbody component.
             GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
             Rigidbody projectileRB = projectile.GetComponent<Rigidbody>();
 
-            Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+            // calculates direction of knife.
+            Vector3 forceDirection = cam.transform.forward;
+
+            RaycastHit hit;
+
+            if(Physics.Raycast(cam.position, cam.forward, out hit, 500f))
+            {
+                forceDirection = (hit.point - attackPoint.position).normalized;
+            }
+
+            Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
             projectileRB.AddForce(forceToAdd, ForceMode.Impulse);
 
             totalThrows--;
 
-            Invoke(nameof(ReserThrow), throwCooldown);
+            Invoke(nameof(ResetThrow), throwCooldown);
         }
 
     }
 
-    private void ReserThrow()
+    private void ResetThrow()
     {
         readyToThrow = true;
     }
