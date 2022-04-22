@@ -3032,7 +3032,7 @@ MonoBehaviour:
   audioSource: {fileID: 1613574326}
   EunhaPickAudio: {fileID: 8300000, guid: 654cab5dcc9dc324bacaeb647e106184, type: 3}
   WinterPickAudio: {fileID: 8300000, guid: fd616db366f513b4db51b8532d17f737, type: 3}
-  ChooseAgentAudio: {fileID: 8300000, guid: c160bec13414ab74182e487e9aa10436, type: 3}
+  ChooseAgentAudio: {fileID: 8300000, guid: 655d5437fa7a1924e937e5cca3e2738b, type: 3}
   countdownText: {fileID: 361089840}
 --- !u!4 &1613574325
 Transform:
@@ -4005,7 +4005,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Choose Your Character
+  m_Text: Choose Your Agent
 --- !u!222 &2107534563
 CanvasRenderer:
   m_ObjectHideFlags: 0

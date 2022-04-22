@@ -16,6 +16,10 @@ public class Guns : MonoBehaviour
 
     public TextMeshProUGUI text;
 
+    // audio.
+    public AudioSource audioSource;
+    [SerializeField] public AudioClip audioShooting;
+
     // gun stats.
     [SerializeField] float range = 50f;
     [SerializeField] float damage = 10f;
@@ -55,6 +59,8 @@ public class Guns : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         meterButton.currentProgress = 0;
         progressMeter.SetMaxProgress(meterButton.maxProgress);
     }
@@ -98,6 +104,9 @@ public class Guns : MonoBehaviour
     public void Shoot()
     {
         readyToShoot = false;
+
+        audioSource.clip = audioShooting;
+        audioSource.Play();
 
         // bullet spread.
         float x = Random.Range(-spread, spread);

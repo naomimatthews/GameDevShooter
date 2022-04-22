@@ -20,6 +20,13 @@ public class EunhaAbilities : MonoBehaviour
     public MeterScript progressMeter;
     public WeaponSelection weaponSelection;
 
+    // audio.
+    public AudioSource audioSource;
+    [SerializeField] public AudioClip AudioQ;
+    [SerializeField] public AudioClip AudioE;
+    [SerializeField] public AudioClip AudioUltimate;
+    [SerializeField] public AudioClip AudioFire;
+
     // (Q) dash ability.
     protected float QabilityTimer;
 
@@ -41,9 +48,6 @@ public class EunhaAbilities : MonoBehaviour
     // (X) ultimate ability.
     bool ultActive;
     public bool ultReady;
-    public float ultTimer;
-
-    [SerializeField] protected float ultDuration;
 
     [SerializeField] Transform attackPoint;
     [SerializeField] Transform cam;
@@ -67,11 +71,11 @@ public class EunhaAbilities : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         playerMove = GetComponent<PlayerMovement>();
 
         boostAsPercent = (100 + boostPercentage) / 100;
-
-        ultTimer = ultDuration;
 
         readyToThrow = true;
     }
@@ -80,12 +84,18 @@ public class EunhaAbilities : MonoBehaviour
     {
         if (Time.time >= QabilityTimer && Input.GetKeyDown(KeyCode.Q))
         {
+            audioSource.clip = AudioQ;
+            audioSource.Play();
+
             Dash();
             QabilityTimer = Time.time + Qcooldown;
         }
 
         if (Time.time >= EabilityTimer && Input.GetKeyDown(KeyCode.E))
         {
+            audioSource.clip = AudioE;
+            audioSource.Play();
+
             SpeedBoost();
             EabilityTimer = Time.time + Ecooldown;
         }
@@ -98,6 +108,8 @@ public class EunhaAbilities : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.X))
             {
+                audioSource.clip = AudioUltimate;
+                audioSource.Play();
 
                 //disable the gun script whilst ult is active.
                 GameObject gun = GameObject.Find("Guns");
@@ -111,10 +123,9 @@ public class EunhaAbilities : MonoBehaviour
         if (ultActive)
         {
             EunhaUltimate();
-            ultTimer -= Time.deltaTime;
         }
 
-        if (ultTimer <= 0)
+        if (totalThrows <= 0)
         {
             ResetUltimate();
         }
@@ -139,7 +150,10 @@ public class EunhaAbilities : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && readyToThrow && totalThrows > 0)
         {
-            Debug.Log("working");
+
+            audioSource.clip = AudioFire;
+            audioSource.Play();
+
             readyToThrow = false;
 
             // instantiates the knife to throw and gets its rigidbody component.
@@ -187,5 +201,11 @@ public class EunhaAbilities : MonoBehaviour
         ultActive = false;
 
         meterButton.currentProgress = 0;
+
+        // re-enable the gun script when ult is finished.
+        GameObject gun = GameObject.Find("Guns");
+        gun.GetComponent<Guns>().enabled = true;
+
+        weaponSelection.Start();
     }
 }

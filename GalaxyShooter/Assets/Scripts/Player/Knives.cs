@@ -23,6 +23,8 @@ public class Knives : MonoBehaviour
 
             damageEnemy.TakeDamage(damage);
 
+            Debug.Log("knife hit");
+
             Destroy(gameObject);
         }
     }

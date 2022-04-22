@@ -8,19 +8,23 @@ public class EnemyManager : MonoBehaviour
     public NavMeshAgent navMeshAgent;
 
     public Transform player;
+    [SerializeField] GameObject playerObject;
 
     public LayerMask whatIsGround;
     public LayerMask whatIsPlayer;
 
     public float health;
 
-    // patroling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
+    public int damage;
+
+    // animations
+    [SerializeField] Animator animator;
+    bool isAttacking;
+    bool isPatroling;
 
     // attacking
-    public GameObject projectile;
+    [SerializeField] Transform attackPoint;
+    [SerializeField] public GameObject projectile;
     public float timeBetweenAttacks;
     bool alreadyAttacked;
 
@@ -35,47 +39,31 @@ public class EnemyManager : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
         navMeshAgent = GetComponent<NavMeshAgent>();
+
+        animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        isAttacking = false;
+        isPatroling = true;
+        animator.SetBool("isPatroling", true);
     }
 
     private void Update()
     {
+
         // checks for the sight and attack range.
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) Chasing();
         if (playerInSightRange && playerInAttackRange) Attacking();
     }
 
-    private void Patroling()
-    {
-        if (!walkPointSet) SearchWalkPoint();
-
-        if (walkPointSet)
-            navMeshAgent.SetDestination(walkPoint);
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        // walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
-    }
-
-    private void SearchWalkPoint()
-    {
-        // calculates random point in range.
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-            walkPointSet = true;
-    }
-
     private void Chasing()
     {
+        animator.SetBool("isPatroling", true);
         navMeshAgent.SetDestination(player.position);
     }
 
@@ -88,20 +76,40 @@ public class EnemyManager : MonoBehaviour
 
         if (!alreadyAttacked)
         {
+            isAttacking = true;
+
             // attack player.
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+            animator.SetBool("isAttacking", true);
+            animator.SetBool("isPatroling", false);
+
+            Rigidbody rb = Instantiate(projectile, attackPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
             rb.AddForce(transform.up * 32f, ForceMode.Impulse);
 
-
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
+
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerHealth>() != null)
+        {
+            PlayerHealth damagePlayer = collision.gameObject.GetComponent<PlayerHealth>();
+
+            damagePlayer.TakeDamage(damage);
+
+            Debug.Log("enemy hit player");
+
+            Destroy(gameObject);
         }
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        animator.SetBool("isAttacking", false);
     }
 
 
@@ -111,7 +119,7 @@ public class EnemyManager : MonoBehaviour
 
         if (health <= 0) Invoke(nameof(DestroyEnemy), .5f);
     }
-
+  
     private void DestroyEnemy()
     {
         Destroy(gameObject);
