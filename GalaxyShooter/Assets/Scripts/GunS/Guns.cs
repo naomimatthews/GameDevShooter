@@ -14,7 +14,7 @@ public class Guns : MonoBehaviour
 
    // public GameObject bulletHole;
 
-    public TextMeshProUGUI text;
+    public TextMeshProUGUI ammoText;
 
     // audio.
     public AudioSource audioSource;
@@ -70,7 +70,7 @@ public class Guns : MonoBehaviour
         progressMeter.SetProgress(meterButton.currentProgress);
         PlayerInput();
 
-        text.SetText(bulletsLeft + " / " + magazineSize);
+        ammoText.SetText(bulletsLeft + " / " + magazineSize);
     }
 
     private void PlayerInput()
@@ -128,7 +128,7 @@ public class Guns : MonoBehaviour
                 if (meterButton.currentProgress < 80)
                 {
                    // Debug.Log("BIGWOW");
-                    meterButton.currentProgress += 5;
+                    meterButton.currentProgress += 7;
                 }
             }
         }
@@ -159,6 +159,16 @@ public class Guns : MonoBehaviour
     private void ResetShot()
     {
         readyToShoot = true;
+    }
+
+    public void HideAmmo()
+    {
+        ammoText.gameObject.SetActive(false);
+    }
+
+    public void ShowAmmo()
+    {
+        ammoText.gameObject.SetActive(true);
     }
 
     #region old shooting code.

@@ -100,7 +100,7 @@ public class EunhaAbilities : MonoBehaviour
             EabilityTimer = Time.time + Ecooldown;
         }
 
-        if (meterButton.currentProgress == meterButton.maxProgress)
+        if (meterButton.currentProgress >= meterButton.maxProgress)
         {
             ultReady = true;
 
@@ -110,6 +110,8 @@ public class EunhaAbilities : MonoBehaviour
             {
                 audioSource.clip = AudioUltimate;
                 audioSource.Play();
+
+                gunScript.HideAmmo();
 
                 //disable the gun script whilst ult is active.
                 GameObject gun = GameObject.Find("Guns");
@@ -201,6 +203,8 @@ public class EunhaAbilities : MonoBehaviour
         ultActive = false;
 
         meterButton.currentProgress = 0;
+
+        gunScript.ShowAmmo();
 
         // re-enable the gun script when ult is finished.
         GameObject gun = GameObject.Find("Guns");
