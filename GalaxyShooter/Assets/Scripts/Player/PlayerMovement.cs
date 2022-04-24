@@ -34,13 +34,12 @@ public class PlayerMovement : MonoBehaviour
        rb.AddForce(transform.TransformDirection(moveDirection) * speed * Time.deltaTime, ForceMode.VelocityChange);
 
         // movement animation.
-       /* if (moveDirection == Vector3.zero)
-        {
-            animator.SetFloat("Speed", 0);
-        }*/
+        animator.SetFloat("Horizontal", moveDirection.x);
+        animator.SetFloat("Vertical", moveDirection.y);
+        animator.SetFloat("Speed", moveDirection.magnitude);
 
-       /*f (isGrounded && playerVelocity.y < 0)
-            playerVelocity.y = -2f;*/
+        /*f (isGrounded && playerVelocity.y < 0)
+             playerVelocity.y = -2f;*/
     }
 
   /*  public void Walk(Vector2 input)
