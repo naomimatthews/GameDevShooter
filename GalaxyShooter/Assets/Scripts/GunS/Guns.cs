@@ -10,6 +10,7 @@ public class Guns : MonoBehaviour
 
     public GameObject muzzleFlash;
 
+    // animation.
     private Animator animator;
 
    // public GameObject bulletHole;
@@ -44,13 +45,13 @@ public class Guns : MonoBehaviour
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
 
-    public MeterScript progressMeter;
-    public MeterButton meterButton;
+    public MeterScript2 progressMeter;
+    public MeterButton2 meterButton;
 
     private void Awake()
     {
-        meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton>();
-        progressMeter = GameObject.Find("UltimateMeter").GetComponent<MeterScript>();
+        meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton2>();
+        progressMeter = GameObject.Find("UltimateMeter").GetComponent<MeterScript2>();
 
         animator = GetComponentInParent<Animator>();
         bulletsLeft = magazineSize;
@@ -92,6 +93,7 @@ public class Guns : MonoBehaviour
     {
         reloading = true;
         animator.SetBool("Reloading", true);
+
         Invoke("ReloadFinished", reloadTime);
     }
 
@@ -99,6 +101,7 @@ public class Guns : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         reloading = false;
+        animator.SetBool("Reloading", false);
     }
 
     public void Shoot()
@@ -149,11 +152,29 @@ public class Guns : MonoBehaviour
     public void IncreaseFireRate()
     {
         bulletsShot = bulletsPerTap * 2;
+        timeBetweenShooting = timeBetweenShooting / 2;
+        timeBetweenShots = timeBetweenShots / 2;
     }
 
     public void LessDamage()
     {
         damage = damage - 35;
+        Debug.Log(damage);
+    }
+
+    private void ResetFirerate()
+    {
+        bulletsShot = bulletsPerTap;
+        timeBetweenShooting = timeBetweenShooting * 2;
+        timeBetweenShots = timeBetweenShots * 2;
+        Debug.Log(timeBetweenShooting);
+        Debug.Log(timeBetweenShots);
+    }
+
+    private void ResetDanage()
+    {
+        damage = damage + 35;
+        Debug.Log(damage);
     }
 
     private void ResetShot()

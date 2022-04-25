@@ -10,8 +10,12 @@ public class Damageable : MonoBehaviour
 
     [SerializeField] GameObject hitMarker;
 
+    Rigidbody rb;
+
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+
         currentHealth = maxHealth;
     }
 
@@ -23,6 +27,13 @@ public class Damageable : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void Freeze()
+    {
+        // freeze enemy.
+        rb.constraints = RigidbodyConstraints.FreezePosition;
+
     }
 
     void Die()

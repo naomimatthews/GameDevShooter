@@ -11,11 +11,10 @@ public class WinterAbilities : MonoBehaviour
 
     [SerializeField] PlayerMovement playerMove;
     [SerializeField] Guns gunScript;
-    [SerializeField] MeterButton meterScript;
+    [SerializeField] MeterButton2 meterScript;
     [SerializeField] GameObject playerCam;
-    [SerializeField] GameObject ultCam;
 
-    public MeterScript progressMeter;
+    public MeterScript2 progressMeter;
     public int currentProgress;
     public int maxProgress = 80;
 
@@ -38,8 +37,8 @@ public class WinterAbilities : MonoBehaviour
     private void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
-        gunScript = GetComponent<Guns>();
-        meterScript = GetComponent<MeterButton>();
+        gunScript = GameObject.Find("Guns").GetComponent<Guns>();
+        meterScript = GameObject.Find("UltimateMeter").GetComponent<MeterButton2>();
 
     }
 
@@ -60,13 +59,26 @@ public class WinterAbilities : MonoBehaviour
 
     private void WinterAbilityQ()
     {
-
+        if(target)
+        {
+            GetComponent<Damageable>().Freeze();
+        }
     }
 
     private void WinterAbilityE()
     {
         gunScript.IncreaseFireRate();
         gunScript.LessDamage();
+    }
+
+    private void ResetQAbility()
+    {
+       
+    }
+
+    private void ResetEAbility()
+    {
+        playerMove.ResetSBBoost();
     }
 
     private void Ultimate()
