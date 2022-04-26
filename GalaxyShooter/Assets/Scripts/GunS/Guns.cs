@@ -149,6 +149,23 @@ public class Guns : MonoBehaviour
 
     }
 
+    public void FreezeAbility()
+    {
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out rayHit, range, whatIsEnemy))
+        {
+            Debug.Log(rayHit.collider.name);
+
+            if (rayHit.collider.CompareTag("Enemy"))
+            {
+                rayHit.collider.GetComponent<Damageable>().Freeze();
+                if (meterButton.currentProgress < 80)
+                {
+                    meterButton.currentProgress += 7;
+                }
+            }
+        }
+    }
+
     public void IncreaseFireRate()
     {
         bulletsShot = bulletsPerTap * 2;

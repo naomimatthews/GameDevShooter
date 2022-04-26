@@ -9,6 +9,7 @@ public class Damageable : MonoBehaviour
     float currentHealth;
 
     [SerializeField] GameObject hitMarker;
+    [SerializeField] GameObject enemies;
 
     Rigidbody rb;
 
@@ -31,9 +32,20 @@ public class Damageable : MonoBehaviour
 
     public void Freeze()
     {
+        Debug.Log("FREEZE");
+
         // freeze enemy.
+        // disable the enemy controls script.
+        enemies.GetComponentInChildren<EnemyControls>().enabled = false;
+
         rb.constraints = RigidbodyConstraints.FreezePosition;
 
+    }
+
+    public void UnFreeze()
+    {
+        // unfreeze enemy.
+        rb.constraints = RigidbodyConstraints.None;
     }
 
     void Die()

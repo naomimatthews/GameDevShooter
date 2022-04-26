@@ -7,6 +7,7 @@ public class WeaponSelection : MonoBehaviour
     // weapons.
     [SerializeField] private GameObject Gun;
     [SerializeField] private GameObject Knife;
+    [SerializeField] private GameObject Sniper;
 
     public void Start()
     {
@@ -20,8 +21,9 @@ public class WeaponSelection : MonoBehaviour
         Gun.SetActive(false);
     }
 
-    public void WinterUltSniper()
+    public void SniperUlt()
     {
-
+        Sniper.SetActive(true);
+        Gun.SetActive(false);
     }
 }

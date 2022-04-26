@@ -8,15 +8,23 @@ public class WinterAbilities : MonoBehaviour
     public GameObject player;
     public Transform target;
 
-
     [SerializeField] PlayerMovement playerMove;
     [SerializeField] Guns gunScript;
-    [SerializeField] MeterButton2 meterScript;
+    [SerializeField] MeterButton2 meterButton;
     [SerializeField] GameObject playerCam;
+
+    public WeaponSelection weaponSelection;
 
     public MeterScript2 progressMeter;
     public int currentProgress;
     public int maxProgress = 80;
+
+    // audio.
+    public AudioSource audioSource;
+    [SerializeField] public AudioClip AudioQ;
+    [SerializeField] public AudioClip AudioE;
+    [SerializeField] public AudioClip AudioUltimate;
+    [SerializeField] public AudioClip AudioFire;
 
     // (Q) freeze ability.
     protected float QabilityTimer;
@@ -31,14 +39,13 @@ public class WinterAbilities : MonoBehaviour
     // (X) ultimate ability.
     bool ultActive;
     public bool ultReady;
-    public float ultTimer;
-    [SerializeField] protected float ultDuration;
 
     private void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
-        gunScript = GameObject.Find("Guns").GetComponent<Guns>();
-        meterScript = GameObject.Find("UltimateMeter").GetComponent<MeterButton2>();
+        gunScript = GameObject.Find("Gun").GetComponent<Guns>();
+        meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton2>();
+        weaponSelection = GameObject.Find("Gun").GetComponent<WeaponSelection>();
 
     }
 
@@ -55,14 +62,39 @@ public class WinterAbilities : MonoBehaviour
             WinterAbilityE();
             EabilityTimer = Time.time + Ecooldown;
         }
+
+        if (meterButton.currentProgress >= meterButton.maxProgress)
+        {
+            ultReady = true;
+
+            // Debug.Log("ult ready");
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                audioSource.clip = AudioUltimate;
+                audioSource.Play();
+
+                gunScript.HideAmmo();
+
+                //disable the gun script whilst ult is active.
+                GameObject gun = GameObject.Find("Guns");
+                gun.GetComponent<Guns>().enabled = false;
+
+                weaponSelection.SniperUlt();
+                ultActive = true;
+            }
+        }
+
+        if (ultActive)
+        {
+            Ultimate();
+        }
     }
 
     private void WinterAbilityQ()
     {
-        if(target)
-        {
-            GetComponent<Damageable>().Freeze();
-        }
+        Debug.Log("Q ability active");
+        gunScript.FreezeAbility();
     }
 
     private void WinterAbilityE()
