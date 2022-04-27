@@ -38,6 +38,7 @@ public class Guns : MonoBehaviour
     bool shooting;
     bool reloading;
     bool readyToShoot;
+    public bool abilityActive;
 
     //references
     public Camera camera;
@@ -47,15 +48,19 @@ public class Guns : MonoBehaviour
 
     public MeterScript2 progressMeter;
     public MeterButton2 meterButton;
+    public EnemyControls enemyControls;
+    public WinterAbilities winterAbilities;
 
     private void Awake()
     {
         meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton2>();
         progressMeter = GameObject.Find("UltimateMeter").GetComponent<MeterScript2>();
+        winterAbilities = GameObject.Find("Winter").GetComponent<WinterAbilities>();
 
         animator = GetComponentInParent<Animator>();
         bulletsLeft = magazineSize;
         readyToShoot = true;
+        abilityActive = false;
     }
 
     private void Start()
@@ -127,16 +132,26 @@ public class Guns : MonoBehaviour
 
             if (rayHit.collider.CompareTag("Enemy"))
             {
-                rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
-                if (meterButton.currentProgress < 80)
+                if (!abilityActive)
                 {
-                   // Debug.Log("BIGWOW");
-                    meterButton.currentProgress += 7;
+                    rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
+                    if (meterButton.currentProgress < 80)
+                    {
+                        // Debug.Log("BIGWOW");
+                        meterButton.currentProgress += 7;
+                    }
+                }
+                else
+                {
+                    enemyControls = rayHit.collider.GetComponent<EnemyControls>();
+
+                    enemyControls.StopEnemy();
+                    enemyControls.enabled = false;
                 }
             }
         }
 
-       // Instantiate(bulletHole, rayHit.point, Quaternion.Euler(0, 180, 0));
+        // Instantiate(bulletHole, rayHit.point, Quaternion.Euler(0, 180, 0));
         Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
 
         bulletsLeft--;
@@ -151,19 +166,7 @@ public class Guns : MonoBehaviour
 
     public void FreezeAbility()
     {
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out rayHit, range, whatIsEnemy))
-        {
-            Debug.Log(rayHit.collider.name);
-
-            if (rayHit.collider.CompareTag("Enemy"))
-            {
-                rayHit.collider.GetComponent<Damageable>().Freeze();
-                if (meterButton.currentProgress < 80)
-                {
-                    meterButton.currentProgress += 7;
-                }
-            }
-        }
+        abilityActive = true;
     }
 
     public void IncreaseFireRate()

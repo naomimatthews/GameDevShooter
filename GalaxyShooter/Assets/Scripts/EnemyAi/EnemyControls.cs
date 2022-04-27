@@ -6,19 +6,28 @@ using UnityEngine.AI;
 public class EnemyControls : MonoBehaviour
 {
     NavMeshAgent agent;
+
+    private Rigidbody rb;
+
     public GameObject waypoints;
+
     int waypointIndex;
     Vector3 target;
 
     float xWanderRange;
     float zWanderRange;
 
+
+    float currentTime;
+    public float startTime;
+
+    private float freezeDur = 1.5f;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         waypointIndex = 0;
         UpdateDestination();
-
     }
 
     void Update()
@@ -53,7 +62,6 @@ public class EnemyControls : MonoBehaviour
     {
         target = waypoints.transform.GetChild(waypointIndex).position;
         agent.SetDestination(target);
-
     }
 
     void IterateWaypointIndex()
@@ -63,6 +71,16 @@ public class EnemyControls : MonoBehaviour
         {
             waypointIndex = 0;
         }
+    }
+
+    public void StopEnemy()
+    {
+        currentTime = startTime;
+
+        // make enemy destination their position.
+        agent.destination = transform.position;
+       // rb.constraints = RigidbodyConstraints.FreezeAll;
+
     }
 }
 

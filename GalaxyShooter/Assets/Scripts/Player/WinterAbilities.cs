@@ -29,7 +29,7 @@ public class WinterAbilities : MonoBehaviour
     // (Q) freeze ability.
     protected float QabilityTimer;
     [SerializeField] protected float Qcooldown;
-    [SerializeField] protected float Qduration;
+    public float Qduration = 5.0f;
 
     // (E) firerate ability.
     protected float EabilityTimer;
@@ -95,6 +95,8 @@ public class WinterAbilities : MonoBehaviour
     {
         Debug.Log("Q ability active");
         gunScript.FreezeAbility();
+
+        Invoke("ResetQAbility", Qduration);
     }
 
     private void WinterAbilityE()
@@ -105,7 +107,7 @@ public class WinterAbilities : MonoBehaviour
 
     private void ResetQAbility()
     {
-       
+        gunScript.enemyControls.enabled = true;
     }
 
     private void ResetEAbility()
