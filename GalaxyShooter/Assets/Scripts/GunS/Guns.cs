@@ -87,10 +87,17 @@ public class Guns : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
 
         // shoot weapon.
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
+        if (!abilityActive && readyToShoot && shooting && !reloading && bulletsLeft > 0)
         {
             bulletsShot = bulletsPerTap;
             Shoot();
+        }
+
+        // shoot weapon when q ability is active.
+        if (abilityActive && readyToShoot && shooting && !reloading && bulletsLeft > 0 && winterAbilities.Qduration > 0)
+        {
+            bulletsShot = bulletsPerTap;
+            Qshoot();
         }
     }
 
@@ -141,13 +148,6 @@ public class Guns : MonoBehaviour
                         meterButton.currentProgress += 7;
                     }
                 }
-                else
-                {
-                    enemyControls = rayHit.collider.GetComponent<EnemyControls>();
-
-                    enemyControls.StopEnemy();
-                    enemyControls.enabled = false;
-                }
             }
         }
 
@@ -162,6 +162,56 @@ public class Guns : MonoBehaviour
         if (bulletsShot > 0 && bulletsLeft > 0)
             Invoke("Shoot", timeBetweenShooting);
 
+    }
+
+    public void Qshoot()
+    {
+        readyToShoot = false;
+
+        audioSource.clip = audioShooting;
+        audioSource.Play();
+
+        // bullet spread.
+        float x = Random.Range(-spread, spread);
+        float y = Random.Range(-spread, spread);
+
+        /* if (GetComponent<Rigidbody>().velocity.magnitude > 0)
+             spread = spread * 1.5f;
+         else spread = "normal spread";*/
+
+        Vector3 direction = camera.transform.forward + new Vector3(x, y, 0);
+
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out rayHit, range, whatIsEnemy))
+        {
+            Debug.Log(rayHit.collider.name);
+
+            if (rayHit.collider.CompareTag("Enemy"))
+            {
+                if (abilityActive)
+                {
+                    enemyControls = rayHit.collider.GetComponent<EnemyControls>();
+
+                    enemyControls.StopEnemy();
+
+                    if (meterButton.currentProgress < 80)
+                    {
+                        // Debug.Log("BIGWOW");
+                        meterButton.currentProgress += 7;
+                    }
+                }
+            }
+        }
+
+        // Instantiate(bulletHole, rayHit.point, Quaternion.Euler(0, 180, 0));
+        Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+
+        bulletsLeft--;
+        bulletsShot--;
+
+        Invoke("ResetShot", timeBetweenShooting);
+
+        if (bulletsShot > 0 && bulletsLeft > 0)
+            Invoke("Shoot", timeBetweenShooting);
     }
 
     public void FreezeAbility()

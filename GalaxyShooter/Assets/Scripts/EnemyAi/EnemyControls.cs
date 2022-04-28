@@ -8,6 +8,9 @@ public class EnemyControls : MonoBehaviour
     NavMeshAgent agent;
 
     private Rigidbody rb;
+    [SerializeField] Animator animator;
+
+    bool isPatroling;
 
     public GameObject waypoints;
 
@@ -17,15 +20,18 @@ public class EnemyControls : MonoBehaviour
     float xWanderRange;
     float zWanderRange;
 
-
-    float currentTime;
-    public float startTime;
-
     private float freezeDur = 1.5f;
+
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+    }
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        animator.SetBool("isPatroling", true);
+
         waypointIndex = 0;
         UpdateDestination();
     }
@@ -57,6 +63,8 @@ public class EnemyControls : MonoBehaviour
             IterateWaypointIndex();
             UpdateDestination();
         }
+
+        Debug.Log(freezeDur);
     }
     void UpdateDestination()
     {
@@ -75,12 +83,10 @@ public class EnemyControls : MonoBehaviour
 
     public void StopEnemy()
     {
-        currentTime = startTime;
-
         // make enemy destination their position.
         agent.destination = transform.position;
-       // rb.constraints = RigidbodyConstraints.FreezeAll;
 
+        Invoke("UpdateDestination", freezeDur);
     }
 }
 
