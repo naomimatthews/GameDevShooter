@@ -9,6 +9,7 @@ public class Guns : MonoBehaviour
     Transform cam;
 
     public GameObject muzzleFlash;
+    public GameObject Winter;
 
     // animation.
     private Animator animator;
@@ -46,18 +47,24 @@ public class Guns : MonoBehaviour
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
 
-    public MeterScript2 progressMeter;
-    public MeterButton2 meterButton;
+    public MeterScript progressMeter;
+    public MeterButton meterButton;
+
     public EnemyControls enemyControls;
     public WinterAbilities winterAbilities;
 
     private void Awake()
     {
-        meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton2>();
-        progressMeter = GameObject.Find("UltimateMeter").GetComponent<MeterScript2>();
-        winterAbilities = GameObject.Find("Winter").GetComponent<WinterAbilities>();
+        meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton>();
+        progressMeter = GameObject.Find("UltimateMeter").GetComponent<MeterScript>();
+
+        if (CharacterSelection.characterSelection == 2)
+        {
+            winterAbilities = GameObject.Find("Winter").GetComponent<WinterAbilities>();
+        }
 
         animator = GetComponentInParent<Animator>();
+
         bulletsLeft = magazineSize;
         readyToShoot = true;
         abilityActive = false;
@@ -74,6 +81,7 @@ public class Guns : MonoBehaviour
     private void Update()
     {
         progressMeter.SetProgress(meterButton.currentProgress);
+
         PlayerInput();
 
         ammoText.SetText(bulletsLeft + " / " + magazineSize);
@@ -91,6 +99,7 @@ public class Guns : MonoBehaviour
         {
             bulletsShot = bulletsPerTap;
             Shoot();
+            Debug.Log("shooting");
         }
 
         // shoot weapon when q ability is active.
@@ -142,9 +151,9 @@ public class Guns : MonoBehaviour
                 if (!abilityActive)
                 {
                     rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
+
                     if (meterButton.currentProgress < 80)
                     {
-                        // Debug.Log("BIGWOW");
                         meterButton.currentProgress += 7;
                     }
                 }
@@ -195,7 +204,6 @@ public class Guns : MonoBehaviour
 
                     if (meterButton.currentProgress < 80)
                     {
-                        // Debug.Log("BIGWOW");
                         meterButton.currentProgress += 7;
                     }
                 }
@@ -235,8 +243,10 @@ public class Guns : MonoBehaviour
     private void ResetFirerate()
     {
         bulletsShot = bulletsPerTap;
+
         timeBetweenShooting = timeBetweenShooting * 2;
         timeBetweenShots = timeBetweenShots * 2;
+
         Debug.Log(timeBetweenShooting);
         Debug.Log(timeBetweenShots);
     }

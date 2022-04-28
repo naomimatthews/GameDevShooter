@@ -22,7 +22,6 @@ public class MeterScript : MonoBehaviour
     {
         slider.value = progress;
         fill.color = gradient.Evaluate(slider.normalizedValue);
-
     }
   
 }
