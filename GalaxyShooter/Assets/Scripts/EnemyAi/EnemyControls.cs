@@ -10,7 +10,8 @@ public class EnemyControls : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] Animator animator;
 
-    bool isPatroling;
+    private bool isPatroling;
+    private bool isFrozen = false;
 
     public GameObject waypoints;
 
@@ -38,34 +39,40 @@ public class EnemyControls : MonoBehaviour
 
     void Update()
     {
-        // checking if ai has reached destination or last waypoint.
-        if (waypointIndex == waypoints.transform.childCount - 1 && agent.remainingDistance < 0.5f)
+        if (isFrozen)
         {
-            xWanderRange = Random.Range(-10.0f, 10.0f);
-            zWanderRange = Random.Range(-10.0f, 10.0f);
-
-            // checks that the distance is big enough to move enemy.
-            if ((xWanderRange < -5.0f || xWanderRange > 5.0f) && (zWanderRange < -5.0f || zWanderRange > 5.0f))
+            return;
+        }
+        else
+        {
+            // checking if ai has reached destination or last waypoint.
+            if (waypointIndex == waypoints.transform.childCount - 1 && agent.remainingDistance < 0.5f)
             {
-                Vector3 targetPosition = new Vector3(xWanderRange, 0, zWanderRange) + transform.position;
+                xWanderRange = Random.Range(-10.0f, 10.0f);
+                zWanderRange = Random.Range(-10.0f, 10.0f);
 
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(targetPosition, out hit, 1.0f, NavMesh.AllAreas))
+                // checks that the distance is big enough to move enemy.
+                if ((xWanderRange < -5.0f || xWanderRange > 5.0f) && (zWanderRange < -5.0f || zWanderRange > 5.0f))
                 {
-                    agent.destination = hit.position;
+                    Vector3 targetPosition = new Vector3(xWanderRange, 0, zWanderRange) + transform.position;
+
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(targetPosition, out hit, 1.0f, NavMesh.AllAreas))
+                    {
+                        agent.destination = hit.position;
+                    }
                 }
             }
-        }
 
-        else if (agent.remainingDistance < 1.0f)
-        {
-           // Debug.Log("Reached destination");
-            IterateWaypointIndex();
-            UpdateDestination();
+            else if (agent.remainingDistance < 1.0f)
+            {
+                // Debug.Log("Reached destination");
+                IterateWaypointIndex();
+                UpdateDestination();
+            }
         }
-
-       // Debug.Log(freezeDur);
     }
+
     void UpdateDestination()
     {
         target = waypoints.transform.GetChild(waypointIndex).position;
@@ -84,9 +91,16 @@ public class EnemyControls : MonoBehaviour
     public void StopEnemy()
     {
         // make enemy destination their position.
-        agent.destination = transform.position;
+        // agent.destination = transform.position;
 
-        Invoke("UpdateDestination", freezeDur);
+        Debug.Log("freeze enemy");
+
+        isFrozen = true;
+       // agent.ResetPath();
+
+        animator.SetBool("isPatroling", false);
+
+       // Invoke("UpdateDestination", freezeDur);
     }
 }
 

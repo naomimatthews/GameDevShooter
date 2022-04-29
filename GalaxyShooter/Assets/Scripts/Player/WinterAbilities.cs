@@ -42,13 +42,11 @@ public class WinterAbilities : MonoBehaviour
     public bool ultReady;
 
     private void Start()
-    {
-
+    {      
         playerMove = GetComponent<PlayerMovement>();
         gunScript = GameObject.Find("BarrettMRAD").GetComponent<Guns>();
         meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton>();
         weaponSelection = GameObject.Find("Gun").GetComponent<WeaponSelection>();
-
     }
 
     private void Update()
@@ -75,8 +73,6 @@ public class WinterAbilities : MonoBehaviour
             {
                 audioSource.clip = AudioUltimate;
                 audioSource.Play();
-
-                gunScript.HideAmmo();
 
                 //disable the gun script whilst ult is active.
                 GameObject gun = GameObject.Find("BarrettMRAD");
