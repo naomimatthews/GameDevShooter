@@ -64,7 +64,7 @@ public class EnemyControls : MonoBehaviour
             UpdateDestination();
         }
 
-        Debug.Log(freezeDur);
+       // Debug.Log(freezeDur);
     }
     void UpdateDestination()
     {

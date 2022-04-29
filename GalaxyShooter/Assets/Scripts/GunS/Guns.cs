@@ -40,6 +40,7 @@ public class Guns : MonoBehaviour
     bool reloading;
     bool readyToShoot;
     public bool abilityActive;
+    public bool ultActive;
 
     //references
     public Camera camera;
@@ -68,6 +69,7 @@ public class Guns : MonoBehaviour
         bulletsLeft = magazineSize;
         readyToShoot = true;
         abilityActive = false;
+        ultActive = false;
     }
 
     private void Start()
@@ -95,7 +97,7 @@ public class Guns : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
 
         // shoot weapon.
-        if (!abilityActive && readyToShoot && shooting && !reloading && bulletsLeft > 0)
+        if (!abilityActive && !ultActive && readyToShoot && shooting && !reloading && bulletsLeft > 0)
         {
             bulletsShot = bulletsPerTap;
             Shoot();
@@ -103,7 +105,14 @@ public class Guns : MonoBehaviour
         }
 
         // shoot weapon when q ability is active.
-        if (abilityActive && readyToShoot && shooting && !reloading && bulletsLeft > 0 && winterAbilities.Qduration > 0)
+        if (abilityActive && !ultActive && readyToShoot && shooting && !reloading && bulletsLeft > 0 && winterAbilities.Qduration > 0)
+        {
+            bulletsShot = bulletsPerTap;
+            Qshoot();
+        }
+
+        // shoot weapon when ultimaye is active.
+        if (!abilityActive && ultActive && readyToShoot && shooting && !reloading && bulletsLeft > 0 && winterAbilities.Qduration > 0)
         {
             bulletsShot = bulletsPerTap;
             Qshoot();
@@ -136,10 +145,6 @@ public class Guns : MonoBehaviour
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
 
-       /* if (GetComponent<Rigidbody>().velocity.magnitude > 0)
-            spread = spread * 1.5f;
-        else spread = "normal spread";*/
-
         Vector3 direction = camera.transform.forward + new Vector3(x, y, 0);
 
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out rayHit, range, whatIsEnemy))
@@ -148,12 +153,14 @@ public class Guns : MonoBehaviour
 
             if (rayHit.collider.CompareTag("Enemy"))
             {
-                if (!abilityActive)
+                if (!abilityActive && !ultActive)
                 {
                     rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
 
+                    Debug.Log("enemy hit");
                     if (meterButton.currentProgress < 80)
                     {
+                        Debug.Log("meter going up");
                         meterButton.currentProgress += 7;
                     }
                 }
@@ -184,10 +191,6 @@ public class Guns : MonoBehaviour
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
 
-        /* if (GetComponent<Rigidbody>().velocity.magnitude > 0)
-             spread = spread * 1.5f;
-         else spread = "normal spread";*/
-
         Vector3 direction = camera.transform.forward + new Vector3(x, y, 0);
 
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out rayHit, range, whatIsEnemy))
@@ -196,7 +199,7 @@ public class Guns : MonoBehaviour
 
             if (rayHit.collider.CompareTag("Enemy"))
             {
-                if (abilityActive)
+                if (abilityActive && !ultActive)
                 {
                     enemyControls = rayHit.collider.GetComponent<EnemyControls>();
 
@@ -222,9 +225,53 @@ public class Guns : MonoBehaviour
             Invoke("Shoot", timeBetweenShooting);
     }
 
+    public void UltShooting()
+    {
+        readyToShoot = false;
+
+        audioSource.clip = audioShooting;
+        audioSource.Play();
+
+        // bullet spread.
+        float x = Random.Range(-spread, spread);
+        float y = Random.Range(-spread, spread);
+
+        Vector3 direction = camera.transform.forward + new Vector3(x, y, 0);
+
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out rayHit, range, whatIsEnemy))
+        {
+            Debug.Log(rayHit.collider.name);
+
+            if (rayHit.collider.CompareTag("Enemy"))
+            {
+                if (!abilityActive && ultActive)
+                {
+                    rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);
+                }
+            }
+        }
+
+        // Instantiate(bulletHole, rayHit.point, Quaternion.Euler(0, 180, 0));
+        Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+
+        bulletsLeft--;
+        bulletsShot--;
+
+        Invoke("ResetShot", timeBetweenShooting);
+
+        if (bulletsShot > 0 && bulletsLeft > 0)
+            Invoke("Shoot", timeBetweenShooting);
+    }
+
+
     public void FreezeAbility()
     {
         abilityActive = true;
+    }
+
+    public void Ultimate()
+    {
+        ultActive = true;
     }
 
     public void IncreaseFireRate()

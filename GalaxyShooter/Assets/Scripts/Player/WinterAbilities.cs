@@ -9,9 +9,10 @@ public class WinterAbilities : MonoBehaviour
     public Transform target;
 
     [SerializeField] PlayerMovement playerMove;
-    [SerializeField] Guns gunScript;
     [SerializeField] MeterButton meterButton;
     [SerializeField] GameObject playerCam;
+
+    Guns gunScript;
 
     public WeaponSelection weaponSelection;
 
@@ -42,8 +43,9 @@ public class WinterAbilities : MonoBehaviour
 
     private void Start()
     {
+
         playerMove = GetComponent<PlayerMovement>();
-        gunScript = GameObject.Find("Gun").GetComponent<Guns>();
+        gunScript = GameObject.Find("BarrettMRAD").GetComponent<Guns>();
         meterButton = GameObject.Find("UltimateMeter").GetComponent<MeterButton>();
         weaponSelection = GameObject.Find("Gun").GetComponent<WeaponSelection>();
 
@@ -77,7 +79,7 @@ public class WinterAbilities : MonoBehaviour
                 gunScript.HideAmmo();
 
                 //disable the gun script whilst ult is active.
-                GameObject gun = GameObject.Find("Guns");
+                GameObject gun = GameObject.Find("BarrettMRAD");
                 gun.GetComponent<Guns>().enabled = false;
 
                 weaponSelection.SniperUlt();
@@ -102,7 +104,7 @@ public class WinterAbilities : MonoBehaviour
 
     private void ResetQAbility()
     {
-        gunScript.enemyControls.enabled = true;
+      
     }
 
     private void ResetEAbility()

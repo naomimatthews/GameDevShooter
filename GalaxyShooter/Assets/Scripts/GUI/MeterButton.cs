@@ -12,7 +12,7 @@ public class MeterButton : MonoBehaviour
     void Start()
     {
         currentProgress = 0; // sets your variable to 0 from the start.
-        progressMeter.SetMaxProgress(currentProgress); // sets your meter's fill to maximum from the start.
+        //progressMeter.SetMaxProgress(currentProgress); // sets your meter's fill to maximum from the start.
 
     }
 
