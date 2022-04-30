@@ -112,11 +112,6 @@ public class WinterAbilities : MonoBehaviour
         playerMove.ResetSBBoost();
     }
 
-    private void Ultimate()
-    {
-         
-    }
-
     private void ResetUltimate()
     {
         ultActive = false;

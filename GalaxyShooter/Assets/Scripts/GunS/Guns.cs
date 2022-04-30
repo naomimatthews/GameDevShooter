@@ -111,11 +111,11 @@ public class Guns : MonoBehaviour
             Qshoot();
         }
 
-        // shoot weapon when ultimaye is active.
+        // shoot weapon when ultimate is active.
         if (!abilityActive && ultActive && readyToShoot && shooting && !reloading && bulletsLeft > 0 && winterAbilities.Qduration > 0)
         {
             bulletsShot = bulletsPerTap;
-            Qshoot();
+            UltShooting();
         }
     }
 

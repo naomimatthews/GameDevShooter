@@ -37,20 +37,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Horizontal", moveDirection.x);
         animator.SetFloat("Vertical", moveDirection.y);
         animator.SetFloat("Speed", moveDirection.magnitude);
-
-        /*f (isGrounded && playerVelocity.y < 0)
-             playerVelocity.y = -2f;*/
     }
-
-  /*  public void Walk(Vector2 input)
-    {
-        if (moveDirection != Vector3.zero && !input.GetKey(KeyCode.LeftShift))
-        {
-            animator.SetFloat("Speed", 1f);
-        }
-            animator.SetFloat("Speed", 0.5f);
-   
-    }*/
 
     public void Boost(float buff)
     {

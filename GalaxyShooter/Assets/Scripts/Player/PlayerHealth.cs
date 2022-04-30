@@ -18,7 +18,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        healthText.SetText( currentHealth + "");
+        healthText.SetText( currentHealth + "   ");
     }
 
     public void TakeDamage(float damage)
