@@ -57,8 +57,8 @@ public class EnemyManager : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-       // if (playerInSightRange && !playerInAttackRange) Chasing();
-       // if (playerInSightRange && playerInAttackRange) Attacking();
+        if (playerInSightRange && !playerInAttackRange) Chasing();
+        if (playerInSightRange && playerInAttackRange) Attacking();
     }
 
     private void Chasing()

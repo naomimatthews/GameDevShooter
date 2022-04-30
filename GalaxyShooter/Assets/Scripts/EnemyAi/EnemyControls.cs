@@ -8,7 +8,7 @@ public class EnemyControls : MonoBehaviour
     NavMeshAgent agent;
 
     private Rigidbody rb;
-    [SerializeField] Animator animator;
+    private Animator animator;
 
     bool isPatroling;
 
@@ -21,6 +21,9 @@ public class EnemyControls : MonoBehaviour
     float zWanderRange;
 
     private float freezeDur = 1.5f;
+
+    float timer = 0;
+    bool isFrozen = false;
 
     void Awake()
     {
@@ -38,6 +41,18 @@ public class EnemyControls : MonoBehaviour
 
     void Update()
     {
+        if (isFrozen)
+        {
+            timer += Time.deltaTime; // if isFrozen is true, then add time to our timer.
+
+            if (timer > freezeDur)
+            {
+                isFrozen = false;
+                timer = 0;
+            }
+            return;
+        }
+
         // checking if ai has reached destination or last waypoint.
         if (waypointIndex == waypoints.transform.childCount - 1 && agent.remainingDistance < 0.5f)
         {
@@ -59,12 +74,9 @@ public class EnemyControls : MonoBehaviour
 
         else if (agent.remainingDistance < 1.0f)
         {
-           // Debug.Log("Reached destination");
             IterateWaypointIndex();
             UpdateDestination();
         }
-
-       // Debug.Log(freezeDur);
     }
     void UpdateDestination()
     {
@@ -84,7 +96,12 @@ public class EnemyControls : MonoBehaviour
     public void StopEnemy()
     {
         // make enemy destination their position.
+        Debug.Log("enemy frozen");
+
+        animator.SetBool("isPatroling", false);
+
         agent.destination = transform.position;
+        isFrozen = true;
 
         Invoke("UpdateDestination", freezeDur);
     }
