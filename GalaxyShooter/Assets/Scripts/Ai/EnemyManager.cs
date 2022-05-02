@@ -39,15 +39,15 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        if(eunha.activeInHierarchy == true)
+       if(CharacterSelection.characterSelection == 1)
         {
-            player = GameObject.Find("Eunha").transform;
+            player = eunha.transform;
         }
         else
         {
-            player = GameObject.Find("Winter").transform;
+            player = winter.transform;
         }
-       
+
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         animator = GetComponent<Animator>();
@@ -75,23 +75,23 @@ public class EnemyManager : MonoBehaviour
         // stop enemy movement.
         navMeshAgent.SetDestination(transform.position);
 
-        transform.LookAt(player);
+            transform.LookAt(player);
 
-        if (!alreadyAttacked)
-        {
-            isAttacking = true;
+            if (!alreadyAttacked)
+            {
+                isAttacking = true;
 
-            // attack player.
-            animator.SetBool("isAttacking", true);
-            animator.SetBool("isPatroling", false);
+                // attack player.
+                animator.SetBool("isAttacking", true);
+                animator.SetBool("isPatroling", false);
 
-            Rigidbody rb = Instantiate(projectile, attackPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+                Rigidbody rb = Instantiate(projectile, attackPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
+                rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
 
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                alreadyAttacked = true;
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
 
-        }
+            }
     }
 
     private void ResetAttack()

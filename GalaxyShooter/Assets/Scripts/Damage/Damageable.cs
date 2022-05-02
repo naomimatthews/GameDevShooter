@@ -8,8 +8,7 @@ public class Damageable : MonoBehaviour
     [SerializeField] float maxHealth = 100f;
     float currentHealth;
 
-    [SerializeField] GameObject hitMarker;
-    [SerializeField] GameObject enemies;
+    public static int numOfEnemies = 5;
 
     Rigidbody rb;
 
@@ -33,7 +32,7 @@ public class Damageable : MonoBehaviour
 
     void Die()
     {
-       // Debug.Log("was destroyed");
+        numOfEnemies--;
         Destroy(gameObject);
     }
 }

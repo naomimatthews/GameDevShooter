@@ -34,7 +34,23 @@ public class Projectiles : MonoBehaviour
 
             damageAlly.TakeDamage(damage);
 
-            Debug.Log("enemy hit player");
+            Debug.Log("enemy hit ally");
+
+            //make the explosion
+            GameObject ThisExplosion = Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
+
+            //destory the projectile
+            Destroy(gameObject);
+
+        }
+
+        if (collision.gameObject.GetComponent<Damageable>() != null)
+        {
+            Damageable damageEnemy = collision.gameObject.GetComponent<Damageable>();
+
+            damageEnemy.TakeDamage(damage);
+
+            Debug.Log("enemy hit enemy");
 
             //make the explosion
             GameObject ThisExplosion = Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation) as GameObject;

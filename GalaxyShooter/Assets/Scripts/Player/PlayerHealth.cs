@@ -6,7 +6,7 @@ using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
-    float maxHealth = 100f;
+    float maxHealth = 900f;
     float currentHealth;
 
     public TextMeshProUGUI healthText;
