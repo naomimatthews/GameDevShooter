@@ -7,6 +7,8 @@ public class AllyHealth : MonoBehaviour
     float maxHealth = 100f;
     float currentHealth;
 
+    public static int numOfAllies = 4;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -29,6 +31,7 @@ public class AllyHealth : MonoBehaviour
 
     void Die()
     {
+        numOfAllies--;
         Destroy(gameObject);
     }
 }

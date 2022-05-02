@@ -10,6 +10,9 @@ public class PlayerHealth : MonoBehaviour
     float currentHealth;
 
     public TextMeshProUGUI healthText;
+    public GameObject deathCamera;
+
+    public static bool playerAlive = true;
 
     void Start()
     {
@@ -33,6 +36,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
+        playerAlive = false;
         Destroy(gameObject);
+        deathCamera.SetActive(true);
     }
 }
