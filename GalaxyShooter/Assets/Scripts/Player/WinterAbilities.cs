@@ -91,6 +91,10 @@ public class WinterAbilities : MonoBehaviour
     private void WinterAbilityQ()
     {
         Debug.Log("Q ability active");
+
+        audioSource.clip = AudioQ;
+        audioSource.Play();
+
         gunScript.FreezeAbility();
 
         Invoke("ResetQAbility", Qduration);
@@ -98,6 +102,9 @@ public class WinterAbilities : MonoBehaviour
 
     private void WinterAbilityE()
     {
+        audioSource.clip = AudioE;
+        audioSource.Play();
+
         gunScript.IncreaseFireRate();
         gunScript.LessDamage();
     }

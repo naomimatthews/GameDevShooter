@@ -153,6 +153,7 @@ public class Guns : MonoBehaviour
             if (rayHit.collider.CompareTag("Enemy"))
             {
                 Debug.Log(rayHit.collider.tag);
+
                 if (!abilityActive && !ultActive)
                 {
                     rayHit.collider.GetComponent<Damageable>().TakeDamage(damage);

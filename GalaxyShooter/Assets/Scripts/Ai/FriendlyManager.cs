@@ -6,16 +6,18 @@ using UnityEngine.AI;
 public class FriendlyManager : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
+    public Transform player;
 
-    private Transform enemy;
-    private GameObject enemyObj;
-
-    public LayerMask whatIsGround;
-    public LayerMask whatIsEnemy;
+   // public LayerMask whatIsGround;
+   // public LayerMask Default;
 
     public float health;
+    public float minimumDistance;
 
     public int damage;
+    GameObject[] enemies;
+    private GameObject enemy;
+    private GameObject enemyObj;
 
     // animations
     [SerializeField] Animator animator;
@@ -29,16 +31,15 @@ public class FriendlyManager : MonoBehaviour
     bool alreadyAttacked;
 
     // states 
-    public float sightRange;
-    public float attackRange;
+    //public float sightRange;
+    //public float attackRange;
 
-    public bool enemyInSightRange;
-    public bool enemyInAttackRange;
+    //public bool enemyInSightRange;
+    //public bool enemyInAttackRange;
 
     private void Awake()
     {
-       enemyObj = GameObject.FindGameObjectWithTag("Enemy");
-        enemy = enemyObj.transform;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         navMeshAgent = GetComponent<NavMeshAgent>();
 
@@ -55,18 +56,30 @@ public class FriendlyManager : MonoBehaviour
     private void Update()
     {
         // checks for the sight and attack range.
-        enemyInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsEnemy);
-        enemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsEnemy);
+        //enemyInSightRange = Physics.CheckSphere(transform.position, sightRange, Default);
+        //enemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, Default);
 
-        if (enemyInSightRange && enemyInAttackRange) Attacking();
+        for(int i = 0; i < enemies.Length; i++)
+        {
+            if(Vector3.Distance(player.transform.position, enemies[i].transform.position) <= minimumDistance)
+            {
+                Debug.Log(enemies[i]);
+                enemy = enemies[i];
+                Attacking(enemy);
+            }
+        }
+
+        //if (enemyInSightRange && enemyInAttackRange) Attacking();
     }
 
-    private void Attacking()
+    private void Attacking(GameObject enemy)
     {
         // stop enemy movement.
         navMeshAgent.SetDestination(transform.position);
 
-        transform.LookAt(enemy);
+        enemyObj.transform.position = enemy.transform.position;
+
+        transform.LookAt(enemyObj.transform);
 
         if (!alreadyAttacked)
         {

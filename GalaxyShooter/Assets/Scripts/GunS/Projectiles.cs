@@ -50,7 +50,7 @@ public class Projectiles : MonoBehaviour
 
             damageEnemy.TakeDamage(damage);
 
-            Debug.Log("enemy hit enemy");
+            Debug.Log("ally hit enemy");
 
             //make the explosion
             GameObject ThisExplosion = Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
