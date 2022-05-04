@@ -7,22 +7,21 @@ public class AllyHealth : MonoBehaviour
     float maxHealth = 100f;
     float currentHealth;
 
+    private Rigidbody rb;
+
     public static int numOfAllies = 4;
 
-    void Start()
+    public void Start()
     {
         currentHealth = maxHealth;
-    }
 
-    void Update()
-    {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-
+        Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
             Die();
@@ -32,6 +31,6 @@ public class AllyHealth : MonoBehaviour
     void Die()
     {
         numOfAllies--;
-        Destroy(gameObject);
+        //gameObject.SetActive(false);
     }
 }

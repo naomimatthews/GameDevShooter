@@ -12,7 +12,7 @@ public class Damageable : MonoBehaviour
 
     Rigidbody rb;
 
-    void Start()
+    public void Start()
     {
         rb = GetComponent<Rigidbody>();
 
@@ -30,9 +30,10 @@ public class Damageable : MonoBehaviour
     }
 
 
-    void Die()
+    public void Die()
     {
         numOfEnemies--;
         Destroy(gameObject);
+       // gameObject.SetActive(false);
     }
 }

@@ -7,17 +7,18 @@ public class EnemyManager : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
 
-    private Transform player;
-
-    public GameObject eunha;
-    public GameObject winter;
-
-    public LayerMask whatIsGround;
-    public LayerMask whatIsPlayer;
+    public Transform enemy;
+    public List<GameObject> players;
 
     public float health;
 
     public int damage;
+
+    //GameObject[] players;
+    private GameObject closePlayer;
+    private GameObject playerObj;
+
+    public float minimumDistance;
 
     // animations
     [SerializeField] Animator animator;
@@ -37,23 +38,17 @@ public class EnemyManager : MonoBehaviour
     public bool playerInSightRange;
     public bool playerInAttackRange;
 
-    private void Awake()
+    public void Awake()
     {
-       if(CharacterSelection.characterSelection == 1)
-        {
-            player = eunha.transform;
-        }
-        else
-        {
-            player = winter.transform;
-        }
 
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         animator = GetComponent<Animator>();
+
+        playerObj = new GameObject();
     }
 
-    private void Start()
+    public void Start()
     {
         isAttacking = false;
         isPatroling = true;
@@ -62,22 +57,26 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-
-        // checks for the sight and attack range.
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if (playerInSightRange && playerInAttackRange) Attacking();
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (Vector3.Distance(enemy.transform.position, players[i].transform.position) <= minimumDistance)
+            {
+                closePlayer = players[i];
+                Attacking(closePlayer);
+            }
+        }
     }
 
-    private void Attacking()
+    private void Attacking(GameObject closePlayer)
     {
         // stop enemy movement.
         navMeshAgent.SetDestination(transform.position);
 
-            transform.LookAt(player);
+        playerObj.transform.position = closePlayer.transform.position;
 
-            if (!alreadyAttacked)
+        transform.LookAt(playerObj.transform);
+
+        if (!alreadyAttacked)
             {
                 isAttacking = true;
 

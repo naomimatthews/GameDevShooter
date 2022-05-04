@@ -51,9 +51,9 @@ public class WinLoseScreen : MonoBehaviour
 
     private void LoseScreen()
     {
-            audioSource.clip = loseAudio;
-            audioSource.Play();
+        audioSource.clip = loseAudio;
+        audioSource.Play();
 
-            loseScreen.SetActive(true);
+        loseScreen.SetActive(true);
     }
 }

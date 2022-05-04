@@ -5,12 +5,12 @@ using UnityEngine;
 public class Projectiles : MonoBehaviour
 {
     // stores damage the projectile will do
-    public int damage;
+    public int damage = 30;
 
     // stores the explosion the projectile will make when it hits something
     public GameObject Explosion;
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<PlayerHealth>() != null)
         {
@@ -21,9 +21,9 @@ public class Projectiles : MonoBehaviour
             Debug.Log("enemy hit player");
 
             //make the explosion
-            GameObject ThisExplosion = Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
+            Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation);
 
-            //destory the projectile
+            //destroy the projectile
             Destroy(gameObject);
 
         }
@@ -37,9 +37,9 @@ public class Projectiles : MonoBehaviour
             Debug.Log("enemy hit ally");
 
             //make the explosion
-            GameObject ThisExplosion = Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
+            Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation);
 
-            //destory the projectile
+            //destroy the projectile
             Destroy(gameObject);
 
         }
@@ -53,9 +53,9 @@ public class Projectiles : MonoBehaviour
             Debug.Log("ally hit enemy");
 
             //make the explosion
-            GameObject ThisExplosion = Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
+            Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation);
 
-            //destory the projectile
+            //destroy the projectile
             Destroy(gameObject);
 
         }

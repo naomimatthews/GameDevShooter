@@ -8,14 +8,14 @@ public class FriendlyManager : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public Transform player;
 
-   // public LayerMask whatIsGround;
-   // public LayerMask Default;
+
 
     public float health;
     public float minimumDistance;
 
     public int damage;
-    GameObject[] enemies;
+   // GameObject[] enemies;
+   public List<GameObject> enemies;
     private GameObject enemy;
     private GameObject enemyObj;
 
@@ -30,20 +30,14 @@ public class FriendlyManager : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
 
-    // states 
-    //public float sightRange;
-    //public float attackRange;
-
-    //public bool enemyInSightRange;
-    //public bool enemyInAttackRange;
-
     private void Awake()
     {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         animator = GetComponent<Animator>();
+
+        enemyObj = new GameObject();
     }
 
     private void Start()
@@ -55,21 +49,15 @@ public class FriendlyManager : MonoBehaviour
 
     private void Update()
     {
-        // checks for the sight and attack range.
-        //enemyInSightRange = Physics.CheckSphere(transform.position, sightRange, Default);
-        //enemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, Default);
 
-        for(int i = 0; i < enemies.Length; i++)
+        for(int i = 0; i < enemies.Count; i++)
         {
             if(Vector3.Distance(player.transform.position, enemies[i].transform.position) <= minimumDistance)
             {
-                Debug.Log(enemies[i]);
                 enemy = enemies[i];
                 Attacking(enemy);
             }
         }
-
-        //if (enemyInSightRange && enemyInAttackRange) Attacking();
     }
 
     private void Attacking(GameObject enemy)
