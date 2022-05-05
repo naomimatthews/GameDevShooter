@@ -7,6 +7,8 @@ public class EnemyManager : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
 
+    public static EnemyManager singleton;
+
     public Transform enemy;
     public List<GameObject> players;
 
@@ -15,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     public int damage;
 
     //GameObject[] players;
-    private GameObject closePlayer;
+    private GameObject player;
     private GameObject playerObj;
 
     public float minimumDistance;
@@ -40,7 +42,6 @@ public class EnemyManager : MonoBehaviour
 
     public void Awake()
     {
-
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         animator = GetComponent<Animator>();
@@ -50,6 +51,8 @@ public class EnemyManager : MonoBehaviour
 
     public void Start()
     {
+        singleton = this;
+
         isAttacking = false;
         isPatroling = true;
         animator.SetBool("isPatroling", true);
@@ -61,8 +64,8 @@ public class EnemyManager : MonoBehaviour
         {
             if (Vector3.Distance(enemy.transform.position, players[i].transform.position) <= minimumDistance)
             {
-                closePlayer = players[i];
-                Attacking(closePlayer);
+                player = players[i];
+                Attacking(player);
             }
         }
     }
@@ -99,8 +102,14 @@ public class EnemyManager : MonoBehaviour
         animator.SetBool("isAttacking", false);
     }
 
+    public void DestroyPlayer(GameObject player)
+    {
+        players.Remove(player);
+        //Destroy(gameObject);
+    }
 
-    private void TakeDamage(int damage)
+
+ /*   private void TakeDamage(int damage)
     {
         health -= damage;
 
@@ -110,5 +119,5 @@ public class EnemyManager : MonoBehaviour
     private void DestroyEnemy()
     {
         Destroy(gameObject);
-    }
+    }*/
 }

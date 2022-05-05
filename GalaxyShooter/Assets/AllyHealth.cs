@@ -31,6 +31,8 @@ public class AllyHealth : MonoBehaviour
     void Die()
     {
         numOfAllies--;
-        //gameObject.SetActive(false);
+        EnemyManager.singleton.DestroyPlayer(gameObject);
+        Debug.Log("ally dead");
+        Destroy(gameObject);
     }
 }

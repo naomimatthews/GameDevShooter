@@ -24,18 +24,18 @@ public class WinLoseScreen : MonoBehaviour
 
     void Update()
     {
-        if (Damageable.numOfEnemies == 1)
+        if (FriendlyManager.singleton.enemies.Count == 1)
         {
             audioSource.clip = oneEnemyRemainsAudio;
             audioSource.Play();
         }
 
-        if (Damageable.numOfEnemies == 0)
+        if (FriendlyManager.singleton.enemies.Count == 0)
         {
             WinScreen();
         }
 
-        if (AllyHealth.numOfAllies == 0 && PlayerHealth.playerAlive == false)
+        if (EnemyManager.singleton.players.Count == 0 && PlayerHealth.playerAlive == false)
         {
             LoseScreen();
         }

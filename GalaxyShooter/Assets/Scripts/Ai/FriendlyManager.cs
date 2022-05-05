@@ -8,14 +8,16 @@ public class FriendlyManager : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public Transform player;
 
-
+    public static FriendlyManager singleton; 
 
     public float health;
     public float minimumDistance;
 
     public int damage;
-   // GameObject[] enemies;
-   public List<GameObject> enemies;
+
+    public List<GameObject> enemies;
+ 
+
     private GameObject enemy;
     private GameObject enemyObj;
 
@@ -32,7 +34,6 @@ public class FriendlyManager : MonoBehaviour
 
     private void Awake()
     {
-
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         animator = GetComponent<Animator>();
@@ -42,6 +43,8 @@ public class FriendlyManager : MonoBehaviour
 
     private void Start()
     {
+        singleton = this;
+
         isAttacking = false;
         isPatroling = true;
         animator.SetBool("isPatroling", true);
@@ -92,16 +95,10 @@ public class FriendlyManager : MonoBehaviour
         animator.SetBool("isAttacking", false);
     }
 
-
-    private void TakeDamage(int damage)
+    public void DestroyEnemy(GameObject enemy)
     {
-        health -= damage;
-
-        if (health <= 0) Invoke(nameof(DestroyEnemy), .5f);
-    }
-
-    private void DestroyEnemy()
-    {
+        enemies.Remove(enemy);
+        Debug.Log("AHHHHHHH M GOING CRAZY");
         Destroy(gameObject);
     }
 }
